@@ -10,12 +10,6 @@
             app:actionLayout="@layout/menu_counter_plain_" />
 
         <item
-            android:id="@+id/nav_wish"
-            android:icon="@drawable/ic_nav_wish"
-            android:title="@string/str_nav_wishlist"
-            app:actionLayout="@layout/menu_counter_plain_" />
-
-        <item
             android:id="@+id/nav_history"
             android:icon="@drawable/ic_nav_history"
             android:title="@string/str_nav_history" />
