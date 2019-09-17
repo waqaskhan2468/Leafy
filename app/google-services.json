@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "122616200217",
+    "firebase_url": "https://leafy-5eb88.firebaseio.com",
+    "project_id": "leafy-5eb88",
+    "storage_bucket": "leafy-5eb88.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:122616200217:android:587a5d95d10df76cb17e88",
+        "android_client_info": {
+          "package_name": "com.app.leafy"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "122616200217-nll4btm1jfgttmad8ef0em8tja41bras.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCmjpK1yooLylCLEZTzRkb2Hq6-I7JeDt8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "122616200217-nll4btm1jfgttmad8ef0em8tja41bras.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
