@@ -372,8 +372,7 @@ public class ActivityProductDetails extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_activity_product_details, menu);
-        wishlist_menu = menu.findItem(R.id.action_wish);
-        refreshWishlistMenu();
+
         return true;
     }
 
@@ -382,21 +381,7 @@ public class ActivityProductDetails extends AppCompatActivity {
         int item_id = item.getItemId();
         if (item_id == android.R.id.home) {
             onBackAction();
-        } else if (item_id == R.id.action_wish) {
-            if (product.name == null || product.name.equals("")) {
-                Toast.makeText(this, R.string.cannot_add_wishlist, Toast.LENGTH_SHORT).show();
-                return true;
-            }
-            if (flag_wishlist) {
-                db.deleteWishlist(product_id);
-                Toast.makeText(this, R.string.remove_wishlist, Toast.LENGTH_SHORT).show();
-            } else {
-                Wishlist w = new Wishlist(product.id, product.name, product.image, System.currentTimeMillis());
-                db.saveWishlist(w);
-                Toast.makeText(this, R.string.add_wishlist, Toast.LENGTH_SHORT).show();
-            }
-            refreshWishlistMenu();
-        } else if (item_id == R.id.action_cart) {
+        }  else if (item_id == R.id.action_cart) {
             Intent i = new Intent(this, ActivityShoppingCart.class);
             startActivity(i);
         }

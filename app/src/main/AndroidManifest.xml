@@ -38,7 +38,7 @@
         <activity android:name="com.app.leafy.ActivityFullScreenImage" />
         <activity android:name="com.app.leafy.ActivitySearch" />
         <activity android:name="com.app.leafy.ActivityNotification" />
-        <activity android:name="com.app.leafy.ActivityWishlist" />
+
         <activity android:name="com.app.leafy.ActivityShoppingCart" />
         <activity android:name="com.app.leafy.ActivityCheckout" />
         <activity android:name="com.app.leafy.ActivityOrderHistory" />

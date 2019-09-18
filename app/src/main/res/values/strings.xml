@@ -64,9 +64,7 @@
     <string name="title_info">Information</string>
     <string name="title_no_internet">No Internet Connection</string>
 
-    <!--All data for ActivityWishlist.java -->
-    <string name="msg_wishlist_empty">Wishlist is empty</string>
-    <string name="title_menu_wishlist">Wishlist</string>
+
 
     <!--All data for ActivityShoppingCart.java -->
     <string name="msg_cart_empty">Shopping Cart is empty</string>
