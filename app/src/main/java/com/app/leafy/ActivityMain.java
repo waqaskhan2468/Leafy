@@ -265,7 +265,7 @@ public class ActivityMain extends AppCompatActivity {
     }
 
     static boolean active = false;
-
+// Trying Fawad
     @Override
     public void onStart() {
         super.onStart();
