@@ -353,10 +353,7 @@ public class ActivityMain extends AppCompatActivity {
         int cart_count = db.getActiveCartSize();
         ((TextView) menu.findItem(R.id.nav_cart).getActionView().findViewById(R.id.counter)).setText(String.valueOf(cart_count));
 
-        // update wishlist counter
-       /* int wishlist_count = db.getWishlistSize();
-        ((TextView) menu.findItem(R.id.nav_wish).getActionView().findViewById(R.id.counter)).setText(String.valueOf(wishlist_count));
-*/
+
         // update notification counter
         int notif_count = db.getUnreadNotificationSize();
         View dot_sign = (View) menu.findItem(R.id.nav_notif).getActionView().findViewById(R.id.dot);

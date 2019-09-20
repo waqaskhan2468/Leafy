@@ -307,6 +307,7 @@ public class ActivityProductDetails extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_activity_product_details, menu);
+        
         return true;
     }
 
@@ -315,7 +316,7 @@ public class ActivityProductDetails extends AppCompatActivity {
         int item_id = item.getItemId();
         if (item_id == android.R.id.home) {
             onBackAction();
-        }
+        }  
         else if (item_id == R.id.action_cart) {
             Intent i = new Intent(this, ActivityShoppingCart.class);
             startActivity(i);

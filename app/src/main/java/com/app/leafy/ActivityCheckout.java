@@ -137,8 +137,8 @@ public class ActivityCheckout extends AppCompatActivity {
         address_lyt = (TextInputLayout) findViewById(R.id.address_lyt);
         comment_lyt = (TextInputLayout) findViewById(R.id.comment_lyt);
         shipping = (Spinner) findViewById(R.id.shipping);
-        bt_date_shipping = (ImageButton) findViewById(R.id.bt_date_shipping);
-        date_shipping = (TextView) findViewById(R.id.date_shipping);
+       // bt_date_shipping = (ImageButton) findViewById(R.id.bt_date_shipping);
+        //date_shipping = (TextView) findViewById(R.id.date_shipping);
         List<String> shipping_list = new ArrayList<>();
         shipping_list.add(getString(R.string.choose_shipping));
         shipping_list.addAll(info.shipping);
@@ -153,13 +153,13 @@ public class ActivityCheckout extends AppCompatActivity {
         progressDialog.setTitle(R.string.title_please_wait);
         progressDialog.setMessage(getString(R.string.content_submit_checkout));
 
-        bt_date_shipping.setOnClickListener(new View.OnClickListener() {
+       /* bt_date_shipping.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 dialogDatePicker();
             }
         });
-
+*/
         lyt_add_cart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -239,20 +239,20 @@ public class ActivityCheckout extends AppCompatActivity {
             Snackbar.make(parent_view, R.string.invalid_address, Snackbar.LENGTH_SHORT).show();
             return;
         }
-        if (!validateShipping()) {
+       if (!validateShipping()) {
             Snackbar.make(parent_view, R.string.invalid_shipping, Snackbar.LENGTH_SHORT).show();
             return;
         }
-        if (!validateDateShip()) {
+       /* if (!validateDateShip()) {
             Snackbar.make(parent_view, R.string.invalid_date_ship, Snackbar.LENGTH_SHORT).show();
             return;
         }
-
+*/
         buyerProfile = new BuyerProfile();
         buyerProfile.name = buyer_name.getText().toString();
         buyerProfile.email = email.getText().toString();
         buyerProfile.phone = phone.getText().toString();
-        buyerProfile.address = address.getText().toString();
+        buyerProfile.address = shipping.getSelectedItem().toString()+" "+address.getText().toString();
         sharedPref.setBuyerProfile(buyerProfile);
 
         // hide keyboard
@@ -265,7 +265,7 @@ public class ActivityCheckout extends AppCompatActivity {
     private void submitOrderData() {
         // prepare checkout data
         Checkout checkout = new Checkout();
-        ProductOrder productOrder = new ProductOrder(buyerProfile, shipping.getSelectedItem().toString(), date_ship_millis, comment.getText().toString().trim());
+        ProductOrder productOrder = new ProductOrder(buyerProfile, comment.getText().toString().trim());
         productOrder.status = "WAITING";
         productOrder.total_fees = _total_fees;
         productOrder.tax = info.tax;
