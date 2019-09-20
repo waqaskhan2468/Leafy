@@ -1,8 +1,10 @@
 package com.app.leafy;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.AppBarLayout;
@@ -15,20 +17,28 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.app.leafy.adapter.AdapterProduct;
+import com.app.leafy.adapter.AdapterShoppingCart;
 import com.app.leafy.connection.API;
 import com.app.leafy.connection.RestAdapter;
 import com.app.leafy.connection.callbacks.CallbackProduct;
 import com.app.leafy.data.AppConfig;
 import com.app.leafy.data.Constant;
+import com.app.leafy.data.DatabaseHandler;
+import com.app.leafy.model.Cart;
 import com.app.leafy.model.Category;
 import com.app.leafy.model.Product;
 import com.app.leafy.utils.NetworkCheck;
 import com.app.leafy.utils.Tools;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,13 +59,15 @@ public class ActivityCategoryDetails extends AppCompatActivity {
 
     // extra obj
     private Category category;
-
+    private AdapterShoppingCart adapter;
+    private DatabaseHandler db;
     private Toolbar toolbar;
     private ActionBar actionBar;
     private View parent_view;
     private SwipeRefreshLayout swipe_refresh;
     private Call<CallbackProduct> callbackCall = null;
-
+    private TextView price_total,priceDiscount;
+    private ImageView image;
     private RecyclerView recyclerView;
     private AdapterProduct mAdapter;
 
@@ -66,13 +78,13 @@ public class ActivityCategoryDetails extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category_details);
+        db = new DatabaseHandler(this);
         parent_view = findViewById(android.R.id.content);
         category = (Category) getIntent().getSerializableExtra(EXTRA_OBJECT);
         initComponent();
         initToolbar();
 
         displayCategoryData(category);
-
         requestAction(1);
     }
 
@@ -81,18 +93,18 @@ public class ActivityCategoryDetails extends AppCompatActivity {
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new GridLayoutManager(this, Tools.getGridSpanCount(this)));
         recyclerView.setHasFixedSize(true);
-
+        //price_total = (TextView) findViewById(R.id.price_total);
         //set data and list adapter
         mAdapter = new AdapterProduct(this, recyclerView, new ArrayList<Product>());
         recyclerView.setAdapter(mAdapter);
 
-        // on item list clicked
         mAdapter.setOnItemClickListener(new AdapterProduct.OnItemClickListener() {
             @Override
-            public void onItemClick(View v, Product obj, int position) {
-                ActivityProductDetails.navigate(ActivityCategoryDetails.this, obj.id, false);
+            public void onItemClick(View view, Product obj,int position) {
+                dialogProductAction(obj);
             }
         });
+
 
         // detect when scroll reach bottom
         mAdapter.setOnLoadMoreListener(new AdapterProduct.OnLoadMoreListener() {
@@ -118,6 +130,7 @@ public class ActivityCategoryDetails extends AppCompatActivity {
         });
     }
 
+    //Used to set Toolbar Category Detail
     private void displayCategoryData(Category c) {
         ((AppBarLayout) findViewById(R.id.app_bar_layout)).setBackgroundColor(Color.parseColor(c.color));
         ((TextView) findViewById(R.id.name)).setText(c.name);
@@ -276,4 +289,93 @@ public class ActivityCategoryDetails extends AppCompatActivity {
             }
         });
     }
+
+    /*private void displayData() {
+        List<Cart> items = db.getActiveCartList();
+        adapter = new AdapterShoppingCart(this, true, items);
+        recyclerView.setAdapter(adapter);
+        recyclerView.setNestedScrollingEnabled(false);
+
+        adapter.setOnItemClickListener(new AdapterShoppingCart.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, Cart obj) {
+                dialogCartAction(obj);
+            }
+        });
+        View lyt_no_item = (View) findViewById(R.id.lyt_no_item);
+        if (adapter.getItemCount() == 0) {
+            lyt_no_item.setVisibility(View.VISIBLE);
+        } else {
+            lyt_no_item.setVisibility(View.GONE);
+        }
+        //setTotalPrice();
+    }*/
+
+    private void dialogProductAction(final Product model) {
+
+        final Dialog dialog = new Dialog(ActivityCategoryDetails.this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); // before
+        dialog.setContentView(R.layout.dialog_product_details);
+
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(dialog.getWindow().getAttributes());
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        image = (ImageView) dialog.findViewById(R.id.image1);
+        Tools.displayImageOriginal(ActivityCategoryDetails.this, image, Constant.getURLimgProduct(model.image));
+        ((TextView) dialog.findViewById(R.id.title)).setText(model.name);
+        ((TextView) dialog.findViewById(R.id.price)).setText(Tools.getFormattedPrice(model.price_discount, ActivityCategoryDetails.this));
+
+        priceDiscount = (TextView) dialog.findViewById(R.id.price_strike);
+//        priceDiscount.setText(model.price+"");
+        priceDiscount.setText(Tools.getFormattedPrice(model.price, ActivityCategoryDetails.this));
+        priceDiscount.setPaintFlags(priceDiscount.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+        //((TextView) dialog.findViewById(R.id.stock)).setText(getString(R.string.stock) + model.stock);
+        final TextView qty = (TextView) dialog.findViewById(R.id.quantity);
+        qty.setText(model.price + "");
+        ((ImageView) dialog.findViewById(R.id.img_decrease)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (model.price > 1) {
+                    model.price = model.price- 1;
+                    qty.setText(model.price + "");
+                }
+            }
+        });
+        ((ImageView) dialog.findViewById(R.id.img_increase)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                    model.price = model.price + 1;
+                    qty.setText(model.price + "");
+            }
+        });
+/*        ((Button) dialog.findViewById(R.id.bt_save)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //db.saveCart(model);
+                dialog.dismiss();
+            }
+        });
+        ((Button) dialog.findViewById(R.id.bt_remove)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                db.deleteActiveCart(model.id);
+                dialog.dismiss();
+            }
+        });*/
+        dialog.show();
+        dialog.getWindow().setAttributes(lp);
+    }
+    /*
+    private void setTotalPrice() {
+        List<Cart> items = adapter.getItem();
+        Double _price_total = 0D;
+        String _price_total_tax_str;
+        for (Cart c : items) {
+            _price_total = _price_total + (c.amount * c.price_item);
+        }
+        _price_total_tax_str = Tools.getFormattedPrice(_price_total, this);
+        price_total.setText(" " + _price_total_tax_str);
+    }
+    */
 }

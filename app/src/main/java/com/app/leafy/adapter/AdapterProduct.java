@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.app.leafy.R;
 import com.app.leafy.data.Constant;
@@ -34,6 +35,7 @@ public class AdapterProduct extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private Context ctx;
     private OnItemClickListener mOnItemClickListener;
     private SharedPref sharedPref;
+
 
     public interface OnItemClickListener {
         void onItemClick(View view, Product obj, int position);
@@ -68,7 +70,6 @@ public class AdapterProduct extends RecyclerView.Adapter<RecyclerView.ViewHolder
             lyt_parent = (MaterialRippleLayout) v.findViewById(R.id.lyt_parent);
         }
     }
-
 
     public static class ProgressViewHolder extends RecyclerView.ViewHolder {
         public ProgressBar progressBar;

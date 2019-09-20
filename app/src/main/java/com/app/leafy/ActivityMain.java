@@ -201,10 +201,7 @@ public class ActivityMain extends AppCompatActivity {
                 i = new Intent(this, ActivityShoppingCart.class);
                 startActivity(i);
                 break;
-            /*case R.id.nav_wish:
-                i = new Intent(this, ActivityWishlist.class);
-                startActivity(i);
-                break;*/
+
             case R.id.nav_history:
                 i = new Intent(this, ActivityOrderHistory.class);
                 startActivity(i);

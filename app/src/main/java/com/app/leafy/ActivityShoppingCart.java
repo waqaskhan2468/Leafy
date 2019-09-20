@@ -46,7 +46,6 @@ public class ActivityShoppingCart extends AppCompatActivity {
         db = new DatabaseHandler(this);
         sharedPref = new SharedPref(this);
         info = sharedPref.getInfoData();
-
         initToolbar();
         iniComponent();
     }
@@ -131,7 +130,7 @@ public class ActivityShoppingCart extends AppCompatActivity {
 
     private void setTotalPrice() {
         List<Cart> items = adapter.getItem();
-        Double _price_total = 0D;
+        Integer _price_total = 0;
         String _price_total_tax_str;
         for (Cart c : items) {
             _price_total = _price_total + (c.amount * c.price_item);
@@ -151,7 +150,6 @@ public class ActivityShoppingCart extends AppCompatActivity {
         lp.width = WindowManager.LayoutParams.MATCH_PARENT;
         lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
         ((TextView) dialog.findViewById(R.id.title)).setText(model.product_name);
-        ((TextView) dialog.findViewById(R.id.stock)).setText(getString(R.string.stock) + model.stock);
         final TextView qty = (TextView) dialog.findViewById(R.id.quantity);
         qty.setText(model.amount + "");
 
@@ -167,10 +165,10 @@ public class ActivityShoppingCart extends AppCompatActivity {
         ((ImageView) dialog.findViewById(R.id.img_increase)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (model.amount < model.stock) {
+
                     model.amount = model.amount + 1;
                     qty.setText(model.amount + "");
-                }
+
             }
         });
         ((Button) dialog.findViewById(R.id.bt_save)).setOnClickListener(new View.OnClickListener() {
