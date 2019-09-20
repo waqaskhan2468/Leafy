@@ -19,6 +19,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.app.leafy.adapter.AdapterShoppingCart;
 import com.app.leafy.data.DatabaseHandler;
@@ -26,6 +27,7 @@ import com.app.leafy.data.SharedPref;
 import com.app.leafy.model.Cart;
 import com.app.leafy.model.Info;
 import com.app.leafy.utils.Tools;
+import com.balysv.materialripple.MaterialRippleLayout;
 
 import java.util.List;
 
@@ -38,6 +40,7 @@ public class ActivityShoppingCart extends AppCompatActivity {
     private TextView price_total;
     private SharedPref sharedPref;
     private Info info;
+    private MaterialRippleLayout action_checkout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +59,19 @@ public class ActivityShoppingCart extends AppCompatActivity {
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         price_total = (TextView) findViewById(R.id.price_total);
+        action_checkout = (MaterialRippleLayout) findViewById(R.id.action_checkout);
+
+        action_checkout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (adapter.getItemCount() > 0) {
+                    Intent intent = new Intent(ActivityShoppingCart.this, ActivityCheckout.class);
+                    startActivity(intent);
+                } else {
+                    Snackbar.make(parent_view, R.string.msg_cart_empty, Snackbar.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
     private void initToolbar() {
@@ -78,9 +94,11 @@ public class ActivityShoppingCart extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int item_id = item.getItemId();
+        Toast.makeText(this, ""+item_id, Toast.LENGTH_SHORT).show();
         if (item_id == android.R.id.home) {
             super.onBackPressed();
         } else if (item_id == R.id.action_checkout) {
+            Toast.makeText(this, ""+R.id.action_checkout, Toast.LENGTH_SHORT).show();
             if (adapter.getItemCount() > 0) {
                 Intent intent = new Intent(ActivityShoppingCart.this, ActivityCheckout.class);
                 startActivity(intent);

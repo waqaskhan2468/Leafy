@@ -55,6 +55,7 @@
     <string name="ready_stock">READY STOCK</string>
     <string name="bt_add_cart">ADD TO CART</string>
     <string name="bt_remove_cart">REMOVE FROM CART</string>
+    <string name="bt_check_out">CHECKOUT</string>>
 
     <!--All data for ActivitySplash.java -->
     <string name="title_unable_connect">Unable connect to server</string>
@@ -97,9 +98,9 @@
     <string name="hint_name">Name</string>
     <string name="hint_email">Email</string>
     <string name="hint_phone">Phone</string>
-    <string name="hint_address">Address</string>
+    <string name="hint_address">Address (House# ,Street#)</string>
     <string name="hint_shipping">Shipping</string>
-    <string name="choose_shipping">Choose shipping</string>
+    <string name="choose_shipping">Choose Area</string>
     <string name="hint_date_ship">Date Shipping</string>
     <string name="hint_comment">Comment</string>
     <string name="product_order_list">Product Order List</string>
@@ -124,7 +125,7 @@
     <string name="msg_success_checkout">
         Successfully checkout order.\nYour order code : %1$s\n\nYour order will be review soon. When your order is ready, invoice detail will be sent to your email.
     </string>
-    <string name="process_checkout">PROCESS CHECKOUT</string>
+    <string name="process_checkout">ORDER NOW</string>
 
     <!--All data ActivityNewsInfoDetails.java -->
     <string name="featured">featured</string>
