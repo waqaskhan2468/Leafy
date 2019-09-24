@@ -100,17 +100,18 @@
             android:background="@color/grey_5" />
 
         <LinearLayout
+            android:id="@+id/lyt_quantity_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_weight="1"
             android:background="@android:color/white"
             android:gravity="center_vertical"
             android:orientation="horizontal"
             android:padding="@dimen/spacing_middle"
-            android:visibility="visible"
-            android:layout_weight="1"
             android:paddingTop="@dimen/spacing_middle"
-            android:paddingBottom="@dimen/spacing_middle">
+            android:paddingBottom="@dimen/spacing_middle"
+            android:visibility="visible">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -121,6 +122,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/lyt_price"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/grey_5"
@@ -173,39 +175,14 @@
             android:layout_height="2px"
             android:background="@color/grey_5" />
 
-        <com.balysv.materialripple.MaterialRippleLayout
-            android:id="@+id/lyt_add_cart"
-            style="@style/RippleStyleBlack"
+        <Button
+            android:id="@+id/btn_cart"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:background="@color/colorAddCart"
-            android:clickable="true">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/spacing_xxlarge"
-                android:gravity="center"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:src="@drawable/ic_cart"
-                    android:tint="@android:color/white" />
-
-                <TextView
-                    android:id="@+id/tv_add_cart"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/spacing_middle"
-                    android:layout_marginRight="@dimen/spacing_middle"
-                    android:text="@string/bt_add_cart"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-                    android:textColor="@android:color/white"
-                    android:textStyle="bold" />
-            </LinearLayout>
-
-        </com.balysv.materialripple.MaterialRippleLayout>
+            android:text="@string/bt_add_cart"
+            android:textColor="#FFFFFF" />
 
     </LinearLayout>
 

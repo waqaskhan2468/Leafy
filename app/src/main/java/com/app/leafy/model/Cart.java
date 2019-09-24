@@ -7,14 +7,14 @@ public class Cart {
     public Long product_id;
     public String product_name;
     public String image;
-    public Integer amount = 0;
-    public Integer price_item;
+    public Double amount = 0D;
+    public Double price_item;
     public Long created_at = 0L;
 
     public Cart() {
     }
 
-    public Cart(Long product_id, String product_name, String image, Integer amount, Integer price_item, Long created_at) {
+    public Cart(Long product_id, String product_name, String image, Double amount, Double price_item, Long created_at) {
         this.product_id = product_id;
         this.product_name = product_name;
         this.image = image;

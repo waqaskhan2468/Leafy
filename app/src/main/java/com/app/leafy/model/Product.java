@@ -9,8 +9,8 @@ public class Product implements Serializable {
     public Long id;
     public String name;
     public String image;
-    public Integer price;
-    public Integer price_discount;
+    public Double price;
+    public Double price_discount;
     public Integer draft;
     public String description;
     public String status;

@@ -80,7 +80,6 @@ public class ActivityProductDetails extends AppCompatActivity {
     private Product product;
     private boolean flag_cart=false;
     private DatabaseHandler db;
-
     private Call<CallbackProductDetails> callbackCall = null;
     private Toolbar toolbar;
     private ActionBar actionBar;
@@ -161,7 +160,6 @@ public class ActivityProductDetails extends AppCompatActivity {
         }
     }
 
-
     private void requestNewsInfoDetailsApi() {
         API api = RestAdapter.createAPI();
         callbackCall = api.getProductDetails(product_id);
@@ -171,6 +169,7 @@ public class ActivityProductDetails extends AppCompatActivity {
                 CallbackProductDetails resp = response.body();
                 if (resp != null && resp.status.equals("success")) {
                     product = resp.product;
+                    Toast.makeText(ActivityProductDetails.this, product.description, Toast.LENGTH_SHORT).show();
                     displayPostData();
                     swipeProgress(false);
                 } else {
@@ -188,6 +187,7 @@ public class ActivityProductDetails extends AppCompatActivity {
 
     private void displayPostData() {
         ((TextView) findViewById(R.id.title)).setText(Html.fromHtml(product.name));
+        Toast.makeText(this, product.id+"Product Item Id", Toast.LENGTH_SHORT).show();
         TextView title = (TextView) findViewById(R.id.title);
         TextView price = (TextView) findViewById(R.id.price);
         TextView price_strike = (TextView) findViewById(R.id.price_strike);
@@ -357,6 +357,7 @@ public class ActivityProductDetails extends AppCompatActivity {
 
     private void toggleCartButton() {
         if (flag_cart) {
+            Toast.makeText(this, product_id+"Product_id", Toast.LENGTH_SHORT).show();
             db.deleteActiveCart(product_id);
             Toast.makeText(this, R.string.remove_cart, Toast.LENGTH_SHORT).show();
         } else {
@@ -365,8 +366,8 @@ public class ActivityProductDetails extends AppCompatActivity {
                 Toast.makeText(this, R.string.msg_suspend, Toast.LENGTH_SHORT).show();
                 return;
             }
-            Integer selected_price = product.price_discount > 0 ? product.price_discount : product.price;
-            Cart cart = new Cart(product.id, product.name, product.image, 1, selected_price, System.currentTimeMillis());
+            Double selected_price = product.price_discount > 0 ? product.price_discount : product.price;
+            Cart cart = new Cart(product.id, product.name, product.image, 1D, selected_price, System.currentTimeMillis());
             db.saveCart(cart);
             Toast.makeText(this, R.string.add_cart, Toast.LENGTH_SHORT).show();
         }

@@ -148,7 +148,7 @@ public class ActivityShoppingCart extends AppCompatActivity {
 
     private void setTotalPrice() {
         List<Cart> items = adapter.getItem();
-        Integer _price_total = 0;
+        Double _price_total = 0D;
         String _price_total_tax_str;
         for (Cart c : items) {
             _price_total = _price_total + (c.amount * c.price_item);

@@ -21,6 +21,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,6 +38,7 @@ import com.app.leafy.model.Category;
 import com.app.leafy.model.Product;
 import com.app.leafy.utils.NetworkCheck;
 import com.app.leafy.utils.Tools;
+import com.balysv.materialripple.MaterialRippleLayout;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
@@ -70,9 +72,14 @@ public class ActivityCategoryDetails extends AppCompatActivity {
     private ImageView image;
     private RecyclerView recyclerView;
     private AdapterProduct mAdapter;
+    //private Product model;
+    private double quantity = 1;
+    private Button btn_cart;
+    private LinearLayout lyt_quantity,lyt_price;
 
     private int post_total = 0;
     private int failed_page = 0;
+    private boolean flag_cart = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -184,6 +191,7 @@ public class ActivityCategoryDetails extends AppCompatActivity {
 
 
     private void displayApiResult(final List<Product> items) {
+
         mAdapter.insertData(items);
         swipeProgress(false);
         if (items.size() == 0) showNoItemView(true);
@@ -198,7 +206,9 @@ public class ActivityCategoryDetails extends AppCompatActivity {
                 CallbackProduct resp = response.body();
                 if (resp != null && resp.status.equals("success")) {
                     post_total = resp.count_total;
+                   // Toast.makeText(ActivityCategoryDetails.this, ""+resp.products.get(0).description, Toast.LENGTH_SHORT).show();
                     displayApiResult(resp.products);
+
                 } else {
                     onFailRequest(page_no);
                 }
@@ -211,6 +221,9 @@ public class ActivityCategoryDetails extends AppCompatActivity {
 
         });
     }
+
+
+
 
     private void onFailRequest(int page_no) {
         failed_page = page_no;
@@ -312,7 +325,7 @@ public class ActivityCategoryDetails extends AppCompatActivity {
     }*/
 
     private void dialogProductAction(final Product model) {
-
+        Toast.makeText(this, ""+model.description, Toast.LENGTH_SHORT).show();
         final Dialog dialog = new Dialog(ActivityCategoryDetails.this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE); // before
         dialog.setContentView(R.layout.dialog_product_details);
@@ -322,31 +335,69 @@ public class ActivityCategoryDetails extends AppCompatActivity {
         lp.width = WindowManager.LayoutParams.MATCH_PARENT;
         lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
         image = (ImageView) dialog.findViewById(R.id.image1);
+        lyt_quantity = (LinearLayout) dialog.findViewById(R.id.lyt_quantity_text);
+        lyt_price = (LinearLayout) dialog.findViewById(R.id.lyt_price);
         Tools.displayImageOriginal(ActivityCategoryDetails.this, image, Constant.getURLimgProduct(model.image));
         ((TextView) dialog.findViewById(R.id.title)).setText(model.name);
         ((TextView) dialog.findViewById(R.id.price)).setText(Tools.getFormattedPrice(model.price_discount, ActivityCategoryDetails.this));
-
+        Toast.makeText(ActivityCategoryDetails.this, category.name+"   catego", Toast.LENGTH_LONG).show();
         priceDiscount = (TextView) dialog.findViewById(R.id.price_strike);
 //        priceDiscount.setText(model.price+"");
         priceDiscount.setText(Tools.getFormattedPrice(model.price, ActivityCategoryDetails.this));
         priceDiscount.setPaintFlags(priceDiscount.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
         //((TextView) dialog.findViewById(R.id.stock)).setText(getString(R.string.stock) + model.stock);
         final TextView qty = (TextView) dialog.findViewById(R.id.quantity);
-        qty.setText(model.price + "");
+        btn_cart = (Button) dialog.findViewById(R.id.btn_cart);
+        refreshCartButton(model);
+        qty.setText((int)quantity + " "+model.description);
         ((ImageView) dialog.findViewById(R.id.img_decrease)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (model.price > 1) {
-                    model.price = model.price- 1;
-                    qty.setText(model.price + "");
+                if (category.name == "Fruits"){
+                    if (quantity > 1.0) {
+                        quantity--;
+                        qty.setText((int)quantity +" "+ model.description);
+                    }
+                }
+                else if(category.name.equals("Vegetables")){
+                    if (quantity > 2.0) {
+                        quantity--;
+                        qty.setText((int)quantity +" "+ model.description);
+                    }
+                    else if ((quantity <= 2.0)&&(quantity > 0.5)){
+                        quantity = quantity - 0.5;
+                        qty.setText(quantity +" "+ model.description);
+                    }
                 }
             }
         });
         ((ImageView) dialog.findViewById(R.id.img_increase)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                    model.price = model.price + 1;
-                    qty.setText(model.price + "");
+                if(category.name.equals("Fruits")){
+                    quantity++;
+                    qty.setText((int) quantity + " "+model.description);
+                }
+                else if(category.name.equals("Vegetables")){
+                if ((quantity >= 0.5) && (quantity < 2.0)) {
+                    quantity = quantity + 0.25;
+                    qty.setText(quantity +" "+model.description);
+                } else if (quantity >= 2.0) {
+                    quantity++;
+                    qty.setText((int) quantity +" "+model.description);
+                }
+            }}
+        });
+
+        btn_cart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(ActivityCategoryDetails.this, "I am ready", Toast.LENGTH_SHORT).show();
+                if (model == null || (model.name != null && model.name.equals(""))) {
+                    Toast.makeText(getApplicationContext(), R.string.please_wait_text, Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                toggleCartButton(model);
             }
         });
 /*        ((Button) dialog.findViewById(R.id.bt_save)).setOnClickListener(new View.OnClickListener() {
@@ -363,6 +414,16 @@ public class ActivityCategoryDetails extends AppCompatActivity {
                 dialog.dismiss();
             }
         });*/
+//        lyt_add_cart.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                if (model == null || (model.name != null && model.name.equals(""))) {
+//                    Toast.makeText(getApplicationContext(), R.string.please_wait_text, Toast.LENGTH_SHORT).show();
+//                    return;
+//                }
+//                toggleCartButton(model);
+//            }
+//        });
         dialog.show();
         dialog.getWindow().setAttributes(lp);
     }
@@ -378,4 +439,39 @@ public class ActivityCategoryDetails extends AppCompatActivity {
         price_total.setText(" " + _price_total_tax_str);
     }
     */
+
+    private void toggleCartButton(Product model ) {
+        if (flag_cart) {
+            db.deleteActiveCart(model.id);
+            Toast.makeText(this, R.string.remove_cart, Toast.LENGTH_SHORT).show();
+        } else {
+            // check stock product
+            if (model.status.equalsIgnoreCase("SUSPEND")) {
+                Toast.makeText(this, R.string.msg_suspend, Toast.LENGTH_SHORT).show();
+                return;
+            }
+            Double selected_price = model.price_discount > 0 ? model.price_discount : model.price;
+            Cart cart = new Cart(model.id, model.name, model.image, quantity, selected_price, System.currentTimeMillis());
+            db.saveCart(cart);
+            Toast.makeText(this, R.string.add_cart, Toast.LENGTH_SHORT).show();
+        }
+        refreshCartButton(model);
+    }
+    private void refreshCartButton(Product model) {
+        Cart c = db.getCart(model.id);
+
+        flag_cart = (c != null);
+        if (flag_cart) {
+            quantity=c.amount;
+            lyt_quantity.setVisibility(View.GONE);
+            lyt_price.setVisibility(View.GONE);
+            btn_cart.setBackgroundColor(getResources().getColor(R.color.colorRemoveCart));
+            btn_cart.setText(R.string.bt_remove_cart);
+        } else {
+            lyt_quantity.setVisibility(View.VISIBLE);
+            lyt_price.setVisibility(View.VISIBLE);
+            btn_cart.setBackgroundColor(getResources().getColor(R.color.colorAddCart));
+            btn_cart.setText(R.string.bt_add_cart);
+        }
+    }
 }

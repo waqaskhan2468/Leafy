@@ -75,7 +75,7 @@ public class ActivityCheckout extends AppCompatActivity {
     private Info info;
     private BuyerProfile buyerProfile;
     private Long date_ship_millis = 0L;
-    private Integer _total_fees = 0;
+    private Double _total_fees = 0D;
     private String _total_fees_str;
 
     private Call<CallbackOrder> callbackCall = null;
@@ -204,7 +204,8 @@ public class ActivityCheckout extends AppCompatActivity {
 
     private void setTotalPrice() {
         List<Cart> items = adapter.getItem();
-        Integer _total_order = 0, _price_tax = 0;
+        Double _total_order = 0D;
+        Double _price_tax = 0D;
         String _total_order_str, _price_tax_str;
         for (Cart c : items) {
             _total_order = _total_order + (c.amount * c.price_item);

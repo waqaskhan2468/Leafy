@@ -236,7 +236,7 @@ public class Tools {
         Toast.makeText(context, R.string.msg_copied_clipboard, Toast.LENGTH_SHORT).show();
     }
 
-    public static String getFormattedPrice(Integer price, Context ctx) {
+    public static String getFormattedPrice(Double price, Context ctx) {
         SharedPref sharedPref = new SharedPref(ctx);
         NumberFormat format = NumberFormat.getInstance(AppConfig.PRICE_LOCAL_FORMAT);
         String result = format.format(price);
