@@ -187,6 +187,7 @@ public class ActivityProductDetails extends AppCompatActivity {
                 CallbackProductDetails resp = response.body();
                 if (resp != null && resp.status.equals("success")) {
                     product = resp.product;
+                    Toast.makeText(ActivityProductDetails.this,""+product.description,Toast.LENGTH_SHORT).show();
                     displayPostData();
                     swipeProgress(false);
                 } else {

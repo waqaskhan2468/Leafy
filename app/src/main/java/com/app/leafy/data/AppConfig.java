@@ -6,7 +6,7 @@ public class AppConfig {
 
     // flag for display ads
     public static final boolean ADS_MAIN_INTERSTITIAL = true;
-    public static final int ADS_MAIN_INTERSTITIAL_INTERVAL = 600; // in second
+    public static final int ADS_MAIN_INTERSTITIAL_INTERVAL = 6; // in second
     public static final boolean ADS_NEWS_INFO_DETAILS = true;
     public static final boolean ADS_PRODUCT_DETAILS = true;
 

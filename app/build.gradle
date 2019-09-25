@@ -58,6 +58,7 @@ dependencies {
 
     // firebase ads library
     implementation 'com.google.firebase:firebase-ads:9.2.1'
+
 }
 
 apply plugin: 'com.google.gms.google-services'

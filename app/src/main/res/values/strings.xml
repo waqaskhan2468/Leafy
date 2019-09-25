@@ -15,8 +15,8 @@
     <string name="title_activity_settings">Settings</string>
 
     <!--ADS UNIT ID  -->
-    <string name="interstitial_ad_unit_id">ca-app-pub-3397136890800435/4566183904</string>
-    <string name="banner_ad_unit_id">ca-app-pub-3397136890800435/3089450708</string>
+    <string name="interstitial_ad_unit_id">ca-app-pub-1089834084168106/5818811461</string>
+    <string name="banner_ad_unit_id">ca-app-pub-1089834084168106/5968637662</string>
 
     <!--All data for ActivityMain.java -->
     <string name="navigation_drawer_open">Open navigation drawer</string>
@@ -102,14 +102,14 @@
     <string name="hint_shipping">Shipping</string>
     <string name="choose_shipping">Choose Area</string>
     <string name="hint_date_ship">Date Shipping</string>
-    <string name="hint_comment">Comment</string>
+    <string name="hint_comment">Comment (Optional)</string>
     <string name="product_order_list">Product Order List</string>
 
     <string name="invalid_name">invalid name</string>
     <string name="invalid_email">invalid email</string>
     <string name="invalid_phone">invalid phone</string>
     <string name="invalid_address">invalid address</string>
-    <string name="invalid_shipping">invalid shipping</string>
+    <string name="invalid_shipping">invalid Area</string>
     <string name="invalid_date_ship">invalid date shipping</string>
     <string name="invalid_comment">invalid comment</string>
 
@@ -147,7 +147,7 @@
     </string-array>
 
     <string-array name="about_description_array">
-        <item>Markeet is Premium Online Shopping\nPlatform for Everyone</item>
+        <item>Leafy is Premium Online Shopping\nPlatform for Everyone</item>
         <item>Search Latest and Featured Product\nWith Best Price</item>
         <item>Add to Cart All Product You need\nAnd Checkout the Order</item>
         <item>We Will Verify Your Order\nPay the Bill and Receive the Product</item>
@@ -163,7 +163,7 @@
     <!-- Activity Setting : xml/setting_preference.xml -->
     <string name="app_version">Version</string>
     <string name="developer_email">dev.dream.space@gmail.com</string>
-    <string name="copyright">Copyright © 2016 Dream Space. \nAll right reserved</string>
+    <string name="copyright">Copyright © 2019 Dream Space. \nAll right reserved</string>
 
     <string name="pref_group_notif">NOTIFICATIONS</string>
     <string name="pref_group_others">OTHERS</string>

@@ -96,13 +96,16 @@
             android:id="@+id/radioDelivery"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" >
-
+            <TextView
+                android:id="@+id/deliveryMethodText"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:text="Choose the Delivery Method:"/>
             <RadioButton
                 android:id="@+id/radioExpress"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Express Delivery(30 min)"
-                android:checked="true" />
+                android:text="Express Delivery(30 min)" />
 
             <RadioButton
                 android:id="@+id/radioNormal"
