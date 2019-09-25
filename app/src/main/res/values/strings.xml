@@ -46,7 +46,7 @@
     <string name="cannot_add_wishlist">cannot add to wishlist</string>
     <string name="add_wishlist">Add to wishlist</string>
     <string name="remove_wishlist">Remove from wishlist</string>
-    <string name="add_cart">Add to shopping cart</string>
+    <string name="add_cart"> Added To Cart</string>
     <string name="remove_cart">Remove from shopping cart</string>
     <string name="msg_out_of_stock">Ops, Product out of stock</string>
     <string name="msg_suspend">Ops, Product is suspend</string>

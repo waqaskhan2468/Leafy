@@ -146,9 +146,9 @@ public class Tools {
     }
 
     public static void displayImageOriginal(Context ctx, ImageView img, String url) {
+        //Toast.makeText(ctx, url+"", Toast.LENGTH_LONG).show();
         try {
             Glide.with(ctx).load(url)
-                    .crossFade()
                     .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .into(img);
         } catch (Exception e) {
@@ -158,7 +158,6 @@ public class Tools {
     public static void displayImageThumbnail(Context ctx, ImageView img, String url, float thumb) {
         try {
             Glide.with(ctx).load(url)
-                    .crossFade()
                     .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .thumbnail(thumb)
                     .into(img);
@@ -242,9 +241,9 @@ public class Tools {
         NumberFormat format = NumberFormat.getInstance(AppConfig.PRICE_LOCAL_FORMAT);
         String result = format.format(price);
 
-        if (!AppConfig.PRICE_WITH_DECIMAL) {
-            result = format.format(price.longValue());
-        }
+//        if (!AppConfig.PRICE_WITH_DECIMAL) {
+//            result = format.format(price.longValue());
+//        }
 
         if (AppConfig.PRICE_CURRENCY_IN_END) {
             result = result + " " + sharedPref.getInfoData().currency;

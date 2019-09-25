@@ -120,7 +120,6 @@ public class ActivityCheckout extends AppCompatActivity {
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         lyt_add_cart = (MaterialRippleLayout) findViewById(R.id.lyt_add_cart);
-
         // cost view
         total_order = (TextView) findViewById(R.id.total_order);
         tax = (TextView) findViewById(R.id.tax);
@@ -219,12 +218,13 @@ public class ActivityCheckout extends AppCompatActivity {
 
     private void setTotalPrice() {
         List<Cart> items = adapter.getItem();
-        Double _total_order = 0D, _price_tax = 0D;
+        Double _total_order = 0D;
+        Double _price_tax = 0D;
         String _total_order_str, _price_tax_str;
         for (Cart c : items) {
             _total_order = _total_order + (c.amount * c.price_item);
         }
-        _price_tax = _total_order * info.tax / 100;
+
         _total_fees = _total_order + _price_tax;
         _price_tax_str = Tools.getFormattedPrice(_price_tax, this);
         _total_order_str = Tools.getFormattedPrice(_total_order, this);
@@ -236,7 +236,6 @@ public class ActivityCheckout extends AppCompatActivity {
         price_tax.setText(_price_tax_str);
         total_fees.setText(_total_fees_str);
     }
-
 
     private void submitForm() {
         if (!validateName()) {

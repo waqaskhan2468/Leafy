@@ -78,12 +78,8 @@ public class ActivityProductDetails extends AppCompatActivity {
 
     // extra obj
     private Product product;
-
-    private MenuItem wishlist_menu;
-    private boolean flag_wishlist = false;
-    private boolean flag_cart = false;
+    private boolean flag_cart=false;
     private DatabaseHandler db;
-
     private Call<CallbackProductDetails> callbackCall = null;
     private Toolbar toolbar;
     private ActionBar actionBar;
@@ -91,7 +87,6 @@ public class ActivityProductDetails extends AppCompatActivity {
     private SwipeRefreshLayout swipe_refresh;
     private MaterialRippleLayout lyt_add_cart;
     private TextView tv_add_cart;
-    private WebView webview = null;
     private SharedPref sharedPref;
 
     @Override
@@ -108,7 +103,6 @@ public class ActivityProductDetails extends AppCompatActivity {
         initToolbar();
         initComponent();
         requestAction();
-        prepareAds();
     }
 
     private void initToolbar() {
@@ -166,18 +160,6 @@ public class ActivityProductDetails extends AppCompatActivity {
         }
     }
 
-
-    private void prepareAds() {
-        if (AppConfig.ADS_PRODUCT_DETAILS && NetworkCheck.isConnect(getApplicationContext())) {
-            MobileAds.initialize(getApplicationContext(), getString(R.string.banner_ad_unit_id));
-            AdView mAdView = (AdView) findViewById(R.id.ad_view);
-            AdRequest adRequest = new AdRequest.Builder().build();
-            mAdView.loadAd(adRequest);
-        } else {
-            ((RelativeLayout) findViewById(R.id.banner_layout)).setVisibility(View.GONE);
-        }
-    }
-
     private void requestNewsInfoDetailsApi() {
         API api = RestAdapter.createAPI();
         callbackCall = api.getProductDetails(product_id);
@@ -188,6 +170,7 @@ public class ActivityProductDetails extends AppCompatActivity {
                 if (resp != null && resp.status.equals("success")) {
                     product = resp.product;
                     Toast.makeText(ActivityProductDetails.this,""+product.description,Toast.LENGTH_SHORT).show();
+                    
                     displayPostData();
                     swipeProgress(false);
                 } else {
@@ -205,24 +188,8 @@ public class ActivityProductDetails extends AppCompatActivity {
 
     private void displayPostData() {
         ((TextView) findViewById(R.id.title)).setText(Html.fromHtml(product.name));
-
-        webview = (WebView) findViewById(R.id.content);
-        String html_data = "<style>img{max-width:100%;height:auto;} iframe{width:100%;}</style> ";
-        html_data += product.description;
-        webview.getSettings().setJavaScriptEnabled(true);
-        webview.getSettings().setBuiltInZoomControls(true);
-        webview.setBackgroundColor(Color.TRANSPARENT);
-        webview.setWebChromeClient(new WebChromeClient());
-        webview.loadData(html_data, "text/html; charset=UTF-8", null);
-        // disable scroll on touch
-        webview.setOnTouchListener(new View.OnTouchListener() {
-            public boolean onTouch(View v, MotionEvent event) {
-                return (event.getAction() == MotionEvent.ACTION_MOVE);
-            }
-        });
-
-        ((TextView) findViewById(R.id.date)).setText(Tools.getFormattedDate(product.last_update));
-
+        Toast.makeText(this, product.id+"Product Item Id", Toast.LENGTH_SHORT).show();
+        TextView title = (TextView) findViewById(R.id.title);
         TextView price = (TextView) findViewById(R.id.price);
         TextView price_strike = (TextView) findViewById(R.id.price_strike);
 
@@ -237,21 +204,8 @@ public class ActivityProductDetails extends AppCompatActivity {
             price_strike.setVisibility(View.GONE);
         }
 
-        if (product.status.equalsIgnoreCase("READY STOCK")) {
-            ((TextView) findViewById(R.id.status)).setText(getString(R.string.ready_stock));
-        } else if (product.status.equalsIgnoreCase("OUT OF STOCK")) {
-            ((TextView) findViewById(R.id.status)).setText(getString(R.string.out_of_stock));
-        } else if (product.status.equalsIgnoreCase("SUSPEND")) {
-            ((TextView) findViewById(R.id.status)).setText(getString(R.string.suspend));
-        } else {
-            ((TextView) findViewById(R.id.status)).setText(product.status);
-        }
-
         // display Image slider
         displayImageSlider();
-
-        // display category list at bottom
-        displayCategoryProduct();
 
         Toast.makeText(this, R.string.msg_data_loaded, Toast.LENGTH_SHORT).show();
 
@@ -296,25 +250,6 @@ public class ActivityProductDetails extends AppCompatActivity {
         for (ProductImage img : productImages) {
             images_list.add(Constant.getURLimgProduct(img.name));
         }
-
-        adapterSlider.setOnItemClickListener(new AdapterProductImage.OnItemClickListener() {
-            @Override
-            public void onItemClick(View view, ProductImage obj, int pos) {
-                Intent i = new Intent(ActivityProductDetails.this, ActivityFullScreenImage.class);
-                i.putExtra(ActivityFullScreenImage.EXTRA_POS, pos);
-                i.putStringArrayListExtra(ActivityFullScreenImage.EXTRA_IMGS, images_list);
-                startActivity(i);
-            }
-        });
-    }
-
-    private void displayCategoryProduct() {
-        TextView category = (TextView) findViewById(R.id.category);
-        String html_data = "";
-        for (int i = 0; i < product.categories.size(); i++) {
-            html_data += (i + 1) + ". " + product.categories.get(i).name + "\n";
-        }
-        category.setText(html_data);
     }
 
     private void addBottomDots(LinearLayout layout_dots, int size, int current) {
@@ -373,7 +308,7 @@ public class ActivityProductDetails extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_activity_product_details, menu);
-
+        
         return true;
     }
 
@@ -382,7 +317,8 @@ public class ActivityProductDetails extends AppCompatActivity {
         int item_id = item.getItemId();
         if (item_id == android.R.id.home) {
             onBackAction();
-        }  else if (item_id == R.id.action_cart) {
+        }  
+        else if (item_id == R.id.action_cart) {
             Intent i = new Intent(this, ActivityShoppingCart.class);
             startActivity(i);
         }
@@ -397,13 +333,11 @@ public class ActivityProductDetails extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        if (webview != null) webview.onPause();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        if (webview != null) webview.onPause();
         refreshCartButton();
     }
 
@@ -422,32 +356,19 @@ public class ActivityProductDetails extends AppCompatActivity {
         }
     }
 
-    private void refreshWishlistMenu() {
-        Wishlist w = db.getWishlist(product_id);
-        flag_wishlist = (w != null);
-        if (flag_wishlist) {
-            wishlist_menu.setIcon(R.drawable.ic_wish);
-        } else {
-            wishlist_menu.setIcon(R.drawable.ic_wish_outline);
-        }
-    }
-
     private void toggleCartButton() {
         if (flag_cart) {
+            Toast.makeText(this, product_id+"Product_id", Toast.LENGTH_SHORT).show();
             db.deleteActiveCart(product_id);
             Toast.makeText(this, R.string.remove_cart, Toast.LENGTH_SHORT).show();
         } else {
             // check stock product
-            if (product.stock == 0 || product.status.equalsIgnoreCase("OUT OF STOCK")) {
-                Toast.makeText(this, R.string.msg_out_of_stock, Toast.LENGTH_SHORT).show();
-                return;
-            }
             if (product.status.equalsIgnoreCase("SUSPEND")) {
                 Toast.makeText(this, R.string.msg_suspend, Toast.LENGTH_SHORT).show();
                 return;
             }
             Double selected_price = product.price_discount > 0 ? product.price_discount : product.price;
-            Cart cart = new Cart(product.id, product.name, product.image, 1, product.stock, selected_price, System.currentTimeMillis());
+            Cart cart = new Cart(product.id, product.name, product.image, 1D, selected_price, System.currentTimeMillis());
             db.saveCart(cart);
             Toast.makeText(this, R.string.add_cart, Toast.LENGTH_SHORT).show();
         }

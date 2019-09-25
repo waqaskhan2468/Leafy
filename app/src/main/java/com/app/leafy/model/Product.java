@@ -11,7 +11,6 @@ public class Product implements Serializable {
     public String image;
     public Double price;
     public Double price_discount;
-    public Long stock;
     public Integer draft;
     public String description;
     public String status;
@@ -20,5 +19,4 @@ public class Product implements Serializable {
 
     public List<Category> categories = new ArrayList<>();
     public List<ProductImage> product_images = new ArrayList<>();
-
 }
