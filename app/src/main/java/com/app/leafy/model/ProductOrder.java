@@ -21,13 +21,12 @@ public class ProductOrder implements Serializable {
     public ProductOrder() {
     }
 
-    public ProductOrder(BuyerProfile buyerProfile, String comment,String deliveryMethod,String Area) {
+    public ProductOrder(BuyerProfile buyerProfile, String comment) {
         this.buyer = buyerProfile.name;
-        this.address = buyerProfile.address+" "+Area;
+        this.address = buyerProfile.address;
         this.email = buyerProfile.email;
         this.phone = buyerProfile.phone;
-        this.shipping=deliveryMethod;
         this.comment = comment;
-        date_ship =created_at;
+        this.date_ship=created_at;
     }
 }

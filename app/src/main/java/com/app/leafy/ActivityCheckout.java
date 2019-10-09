@@ -6,7 +6,6 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.Snackbar;
@@ -28,13 +27,11 @@ import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.app.leafy.adapter.AdapterShoppingCart;
+import com.app.leafy.adapter.AdapterShoppingCheckout;
 import com.app.leafy.connection.API;
 import com.app.leafy.connection.RestAdapter;
 import com.app.leafy.connection.callbacks.CallbackOrder;
@@ -71,12 +68,9 @@ public class ActivityCheckout extends AppCompatActivity {
     private TextView total_order, tax, price_tax, total_fees;
     private TextInputLayout buyer_name_lyt, email_lyt, phone_lyt, address_lyt, comment_lyt;
     private EditText buyer_name, email, phone, address, comment;
-    private RadioButton RadioExpress,RadioNormal;
-    private RadioGroup RadioDelivery;
-    private TextView deliveryMethodText;
 
     private DatePickerDialog datePickerDialog;
-    private AdapterShoppingCart adapter;
+    private AdapterShoppingCheckout adapter;
     private DatabaseHandler db;
     private SharedPref sharedPref;
     private Info info;
@@ -84,7 +78,6 @@ public class ActivityCheckout extends AppCompatActivity {
     private Long date_ship_millis = 0L;
     private Double _total_fees = 0D;
     private String _total_fees_str;
-
 
     private Call<CallbackOrder> callbackCall = null;
     // construct dialog progress
@@ -147,12 +140,6 @@ public class ActivityCheckout extends AppCompatActivity {
         shipping = (Spinner) findViewById(R.id.shipping);
        // bt_date_shipping = (ImageButton) findViewById(R.id.bt_date_shipping);
         //date_shipping = (TextView) findViewById(R.id.date_shipping);
-//radio buttons
-        RadioExpress =(RadioButton)findViewById(R.id.radioExpress);
-        RadioNormal =(RadioButton)findViewById(R.id.radioNormal);
-        RadioDelivery =(RadioGroup)findViewById(R.id.radioDelivery);
-        deliveryMethodText =(TextView)findViewById(R.id.deliveryMethodText);
-
         List<String> shipping_list = new ArrayList<>();
         shipping_list.add(getString(R.string.choose_shipping));
         shipping_list.addAll(info.shipping);
@@ -204,7 +191,7 @@ public class ActivityCheckout extends AppCompatActivity {
 
     private void displayData() {
         List<Cart> items = db.getActiveCartList();
-        adapter = new AdapterShoppingCart(this, false, items);
+        adapter = new AdapterShoppingCheckout(this, false, items);
         recyclerView.setAdapter(adapter);
         recyclerView.setNestedScrollingEnabled(false);
         setTotalPrice();
@@ -258,15 +245,17 @@ public class ActivityCheckout extends AppCompatActivity {
             Snackbar.make(parent_view, R.string.invalid_shipping, Snackbar.LENGTH_SHORT).show();
             return;
         }
-        if (!validateDeliveryMethod()) {
-            Snackbar.make(parent_view, "Please select delivery method", Snackbar.LENGTH_SHORT).show();
+       /* if (!validateDateShip()) {
+            Snackbar.make(parent_view, R.string.invalid_date_ship, Snackbar.LENGTH_SHORT).show();
             return;
         }
+*/
         buyerProfile = new BuyerProfile();
         buyerProfile.name = buyer_name.getText().toString();
         buyerProfile.email = email.getText().toString();
         buyerProfile.phone = phone.getText().toString();
-        buyerProfile.address = address.getText().toString();
+        buyerProfile.address = shipping.getSelectedItem().toString()+" "+address.getText().toString();
+
         sharedPref.setBuyerProfile(buyerProfile);
 
         // hide keyboard
@@ -278,11 +267,8 @@ public class ActivityCheckout extends AppCompatActivity {
 
     private void submitOrderData() {
         // prepare checkout data
-        int rid=RadioDelivery.getCheckedRadioButtonId();
-        RadioButton selectedRadio=(RadioButton) findViewById(rid);
-        String radioString=selectedRadio.getText().toString();
         Checkout checkout = new Checkout();
-        ProductOrder productOrder = new ProductOrder(buyerProfile, comment.getText().toString().trim(),radioString,shipping.getSelectedItem().toString());
+        ProductOrder productOrder = new ProductOrder(buyerProfile, comment.getText().toString().trim());
         productOrder.status = "WAITING";
         productOrder.total_fees = _total_fees;
         productOrder.tax = info.tax;
@@ -463,20 +449,15 @@ public class ActivityCheckout extends AppCompatActivity {
     private boolean validateShipping() {
         int pos = shipping.getSelectedItemPosition();
         if (pos == 0) {
-
             return false;
-
         }
         return true;
     }
 
-    private boolean validateDeliveryMethod() {
-       // Toast.makeText(this,""+RadioDelivery.getCheckedRadioButtonId(),Toast.LENGTH_SHORT).show();
-        if(RadioDelivery.getCheckedRadioButtonId()== -1){
-            deliveryMethodText.setTextColor(Color.RED);
+    private boolean validateDateShip() {
+        if (date_ship_millis == 0L) {
             return false;
         }
-
         return true;
     }
 

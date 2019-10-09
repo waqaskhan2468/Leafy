@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class AdapterShoppingCart extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class AdapterShoppingHistory extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private Context ctx;
     private SharedPref sharedPref;
@@ -57,7 +57,7 @@ public class AdapterShoppingCart extends RecyclerView.Adapter<RecyclerView.ViewH
         }
     }
 
-    public AdapterShoppingCart(Context ctx, boolean is_cart, List<Cart> items) {
+    public AdapterShoppingHistory(Context ctx, boolean is_cart, List<Cart> items) {
         this.ctx = ctx;
         this.items = items;
         this.is_cart = is_cart;
@@ -67,7 +67,7 @@ public class AdapterShoppingCart extends RecyclerView.Adapter<RecyclerView.ViewH
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         RecyclerView.ViewHolder vh;
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_shopping_cart, parent, false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_shopping_history, parent, false);
         vh = new ViewHolder(v);
         return vh;
     }
@@ -79,31 +79,8 @@ public class AdapterShoppingCart extends RecyclerView.Adapter<RecyclerView.ViewH
             ViewHolder vItem = (ViewHolder) holder;
             final Cart c = items.get(position);
             vItem.title.setText(c.product_name);
-            vItem.price.setText(Tools.getFormattedPrice((c.amount*c.price_item), ctx));
             vItem.amount.setText(c.amount + " "+ c.type);
-
-            //vItem.amount.setText(c.amount + " " + ctx.getString(R.string.items));
-            Tools.displayImageThumbnail(ctx, vItem.image, Constant.getURLimgProduct(c.image), 0.5f);
-            vItem.lyt_parent.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(final View v) {
-                    if (onItemClickListener != null) {
-                        onItemClickListener.onItemClick(v, c);
-                    }
-                }
-            });
-
-            if (is_cart) {
-                vItem.lyt_image.setVisibility(View.VISIBLE);
-                vItem.title.setMaxLines(2);
-                vItem.lyt_parent.setEnabled(true);
-            } else {
-                vItem.lyt_image.setVisibility(View.GONE);
-                vItem.title.setMaxLines(1);
-                vItem.lyt_parent.setEnabled(false);
-            }
         }
-
     }
 
     @Override
