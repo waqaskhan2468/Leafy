@@ -8,5 +8,6 @@ public class BuyerProfile implements Serializable {
     public String email;
     public String phone;
     public String address;
+    public String shipping;
 
 }

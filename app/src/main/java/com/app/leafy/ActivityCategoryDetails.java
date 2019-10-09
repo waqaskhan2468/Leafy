@@ -429,7 +429,7 @@ public class ActivityCategoryDetails extends AppCompatActivity {
         dialog.getWindow().setAttributes(lp);
     }
 
-    private void toggleCartButton(Product model ) {
+    private void toggleCartButton(Product model) {
         if (flag_cart) {
             db.deleteActiveCart(model.id);
         } else {
@@ -439,7 +439,7 @@ public class ActivityCategoryDetails extends AppCompatActivity {
                 return;
             }
             Double selected_price = model.price_discount > 0 ? model.price_discount : model.price;
-            Cart cart = new Cart(model.id, model.name, model.image, quantity, selected_price, System.currentTimeMillis());
+            Cart cart = new Cart(model.id, model.name, model.image, quantity,model.description, selected_price, System.currentTimeMillis());
             db.saveCart(cart);
         }
         refreshCartButton(model);

@@ -63,6 +63,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String COL_CART_PRODUCT_NAME = "COL_CART_PRODUCT_NAME";
     private static final String COL_CART_IMAGE = "COL_CART_IMAGE";
     private static final String COL_CART_AMOUNT = "COL_CART_AMOUNT";
+    private static final String COL_CART_TYPE = "COL_CART_TYPE";
     private static final String COL_CART_STOCK = "COL_CART_STOCK";
     private static final String COL_CART_PRICE_ITEM = "COL_CART_PRICE_ITEM";
     private static final String COL_CART_CREATED_AT = "COL_CART_CREATED_AT";
@@ -125,6 +126,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 + COL_CART_PRODUCT_NAME + " TEXT, "
                 + COL_CART_IMAGE + " TEXT, "
                 + COL_CART_AMOUNT + " INTEGER, "
+                + COL_CART_TYPE + " TEXT, "
                 + COL_CART_STOCK + " INTEGER, "
                 + COL_CART_PRICE_ITEM + " NUMERIC, "
                 + COL_CART_CREATED_AT + " NUMERIC "
@@ -226,6 +228,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         values.put(COL_CART_PRODUCT_NAME, model.product_name);
         values.put(COL_CART_IMAGE, model.image);
         values.put(COL_CART_AMOUNT, model.amount);
+        values.put(COL_CART_TYPE, model.type);
         values.put(COL_CART_PRICE_ITEM, model.price_item);
         values.put(COL_CART_CREATED_AT, model.created_at);
         return values;
@@ -317,6 +320,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         obj.product_name = cur.getString(cur.getColumnIndex(COL_CART_PRODUCT_NAME));
         obj.image = cur.getString(cur.getColumnIndex(COL_CART_IMAGE));
         obj.amount = cur.getDouble(cur.getColumnIndex(COL_CART_AMOUNT));
+        obj.type = cur.getString(cur.getColumnIndex(COL_CART_TYPE));
         obj.price_item = cur.getDouble(cur.getColumnIndex(COL_CART_PRICE_ITEM));
         obj.created_at = cur.getLong(cur.getColumnIndex(COL_CART_CREATED_AT));
         return obj;

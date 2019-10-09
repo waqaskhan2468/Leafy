@@ -26,7 +26,8 @@
 
     <dimen name="news_item_img">100dp</dimen>
     <dimen name="wishlist_item_img">50dp</dimen>
-    <dimen name="cart_item_img">50dp</dimen>
+    <dimen name="cart_item_img_width">85dp</dimen>
+    <dimen name="cart_item_img_height">50dp</dimen>
     <dimen name="product_item_img">100dp</dimen>
     <dimen name="item_product_width">180dp</dimen>
 

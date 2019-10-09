@@ -26,7 +26,7 @@ public class ProductOrder implements Serializable {
         this.address = buyerProfile.address;
         this.email = buyerProfile.email;
         this.phone = buyerProfile.phone;
-
         this.comment = comment;
+        this.date_ship=created_at;
     }
 }

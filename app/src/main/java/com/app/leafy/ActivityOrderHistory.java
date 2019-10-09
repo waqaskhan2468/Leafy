@@ -21,6 +21,8 @@ import android.widget.TextView;
 
 import com.app.leafy.adapter.AdapterOrderHistory;
 import com.app.leafy.adapter.AdapterShoppingCart;
+import com.app.leafy.adapter.AdapterShoppingCheckout;
+import com.app.leafy.adapter.AdapterShoppingHistory;
 import com.app.leafy.data.DatabaseHandler;
 import com.app.leafy.data.SharedPref;
 import com.app.leafy.model.Info;
@@ -142,7 +144,7 @@ public class ActivityOrderHistory extends AppCompatActivity {
 
         RecyclerView recyclerView = (RecyclerView) dialog.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        AdapterShoppingCart _adapter = new AdapterShoppingCart(this, false, order.cart_list);
+        AdapterShoppingHistory _adapter = new AdapterShoppingHistory(this, false, order.cart_list);
         recyclerView.setAdapter(_adapter);
         recyclerView.setNestedScrollingEnabled(false);
         ((ImageView) dialog.findViewById(R.id.img_close)).setOnClickListener(new View.OnClickListener() {
@@ -161,5 +163,4 @@ public class ActivityOrderHistory extends AppCompatActivity {
         dialog.show();
         dialog.getWindow().setAttributes(lp);
     }
-
 }

@@ -31,6 +31,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.app.leafy.adapter.AdapterShoppingCart;
+import com.app.leafy.adapter.AdapterShoppingCheckout;
 import com.app.leafy.connection.API;
 import com.app.leafy.connection.RestAdapter;
 import com.app.leafy.connection.callbacks.CallbackOrder;
@@ -69,7 +70,7 @@ public class ActivityCheckout extends AppCompatActivity {
     private EditText buyer_name, email, phone, address, comment;
 
     private DatePickerDialog datePickerDialog;
-    private AdapterShoppingCart adapter;
+    private AdapterShoppingCheckout adapter;
     private DatabaseHandler db;
     private SharedPref sharedPref;
     private Info info;
@@ -190,7 +191,7 @@ public class ActivityCheckout extends AppCompatActivity {
 
     private void displayData() {
         List<Cart> items = db.getActiveCartList();
-        adapter = new AdapterShoppingCart(this, false, items);
+        adapter = new AdapterShoppingCheckout(this, false, items);
         recyclerView.setAdapter(adapter);
         recyclerView.setNestedScrollingEnabled(false);
         setTotalPrice();
@@ -254,6 +255,7 @@ public class ActivityCheckout extends AppCompatActivity {
         buyerProfile.email = email.getText().toString();
         buyerProfile.phone = phone.getText().toString();
         buyerProfile.address = shipping.getSelectedItem().toString()+" "+address.getText().toString();
+
         sharedPref.setBuyerProfile(buyerProfile);
 
         // hide keyboard

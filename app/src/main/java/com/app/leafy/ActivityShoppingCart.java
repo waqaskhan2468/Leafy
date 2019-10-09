@@ -168,35 +168,7 @@ public class ActivityShoppingCart extends AppCompatActivity {
         lp.width = WindowManager.LayoutParams.MATCH_PARENT;
         lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
         ((TextView) dialog.findViewById(R.id.title)).setText(model.product_name);
-        final TextView qty = (TextView) dialog.findViewById(R.id.quantity);
-        qty.setText(model.amount + "");
 
-        ((ImageView) dialog.findViewById(R.id.img_decrease)).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (model.amount > 1) {
-                    model.amount = model.amount - 1;
-                    qty.setText(model.amount + "");
-                }
-            }
-        });
-        ((ImageView) dialog.findViewById(R.id.img_increase)).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                    model.amount = model.amount + 1;
-                    qty.setText(model.amount + "");
-
-            }
-        });
-        ((Button) dialog.findViewById(R.id.bt_save)).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                db.saveCart(model);
-                displayData();
-                dialog.dismiss();
-            }
-        });
         ((Button) dialog.findViewById(R.id.bt_remove)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -225,5 +197,4 @@ public class ActivityShoppingCart extends AppCompatActivity {
         builder.setNegativeButton(R.string.CANCEL, null);
         builder.show();
     }
-
 }
