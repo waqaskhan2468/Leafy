@@ -78,7 +78,7 @@ public class ActivityCategoryDetails extends AppCompatActivity {
     private AdapterProduct mAdapter;
     //private Product model;
     private double quantity = 1;
-    private Button btn_cart;
+    private Button btn_cart,btn_ContineShop,btn_GoToCart;
     private LinearLayout lyt_quantity,lyt_price;
 
     private int post_total = 0;
@@ -365,7 +365,8 @@ public class ActivityCategoryDetails extends AppCompatActivity {
         lyt_price = (LinearLayout) dialog.findViewById(R.id.lyt_price);
         Tools.displayImageOriginal(ActivityCategoryDetails.this, image, Constant.getURLimgProduct(model.image));
         ((TextView) dialog.findViewById(R.id.title)).setText(model.name);
-        ((TextView) dialog.findViewById(R.id.price)).setText(Tools.getFormattedPrice(model.price_discount, ActivityCategoryDetails.this));
+
+        ((TextView) dialog.findViewById(R.id.price)).setText(Tools.getFormattedPrice(model.price_discount , ActivityCategoryDetails.this)+"/"+model.description);
         //Toast.makeText(ActivityCategoryDetails.this, category.name+"   catego", Toast.LENGTH_LONG).show();
         priceDiscount = (TextView) dialog.findViewById(R.id.price_strike);
 //        priceDiscount.setText(model.price+"");
@@ -374,6 +375,8 @@ public class ActivityCategoryDetails extends AppCompatActivity {
         //((TextView) dialog.findViewById(R.id.stock)).setText(getString(R.string.stock) + model.stock);
         final TextView qty = (TextView) dialog.findViewById(R.id.quantity);
         btn_cart = (Button) dialog.findViewById(R.id.btn_cart);
+        btn_ContineShop=(Button)dialog.findViewById(R.id.btn_continueShopping);
+        btn_GoToCart=(Button)dialog.findViewById(R.id.btn_GoCart);
         refreshCartButton(model);
         qty.setText((int)quantity + " "+model.description);
         ((ImageView) dialog.findViewById(R.id.img_decrease)).setOnClickListener(new View.OnClickListener() {
@@ -427,6 +430,19 @@ public class ActivityCategoryDetails extends AppCompatActivity {
         });
         dialog.show();
         dialog.getWindow().setAttributes(lp);
+        btn_GoToCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(ActivityCategoryDetails.this, ActivityShoppingCart.class);
+                startActivity(i);
+            }
+        });
+        btn_ContineShop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
     }
 
     private void toggleCartButton(Product model) {
@@ -453,11 +469,16 @@ public class ActivityCategoryDetails extends AppCompatActivity {
             lyt_price.setVisibility(View.GONE);
             btn_cart.setBackgroundColor(getResources().getColor(R.color.colorRemoveCart));
             btn_cart.setText(R.string.bt_remove_cart);
+            btn_GoToCart.setVisibility(View.VISIBLE);
+            btn_ContineShop.setVisibility(View.VISIBLE);
+            btn_cart.setVisibility(View.GONE);
         } else {
             lyt_quantity.setVisibility(View.VISIBLE);
             lyt_price.setVisibility(View.VISIBLE);
             btn_cart.setBackgroundColor(getResources().getColor(R.color.colorAddCart));
             btn_cart.setText(R.string.bt_add_cart);
+            btn_GoToCart.setVisibility(View.GONE);
+            btn_ContineShop.setVisibility(View.GONE);
         }
     }
 }

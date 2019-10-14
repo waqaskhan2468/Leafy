@@ -41,6 +41,7 @@ public class ActivityShoppingCart extends AppCompatActivity {
     private SharedPref sharedPref;
     private Info info;
     private MaterialRippleLayout action_checkout;
+    private ImageView cross_image;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +60,7 @@ public class ActivityShoppingCart extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         price_total = (TextView) findViewById(R.id.price_total);
         action_checkout = (MaterialRippleLayout) findViewById(R.id.action_checkout);
+        cross_image =(ImageView)findViewById(R.id.delete);
 
         action_checkout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,11 +95,11 @@ public class ActivityShoppingCart extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int item_id = item.getItemId();
-        Toast.makeText(this, ""+item_id, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, ""+item_id, Toast.LENGTH_SHORT).show();
         if (item_id == android.R.id.home) {
             super.onBackPressed();
         } else if (item_id == R.id.action_checkout) {
-            Toast.makeText(this, ""+R.id.action_checkout, Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, ""+R.id.action_checkout, Toast.LENGTH_SHORT).show();
             if (adapter.getItemCount() > 0) {
                 Intent intent = new Intent(ActivityShoppingCart.this, ActivityCheckout.class);
                 startActivity(intent);
@@ -134,6 +136,7 @@ public class ActivityShoppingCart extends AppCompatActivity {
         adapter.setOnItemClickListener(new AdapterShoppingCart.OnItemClickListener() {
             @Override
             public void onItemClick(View view, Cart obj) {
+
                 dialogCartAction(obj);
             }
         });

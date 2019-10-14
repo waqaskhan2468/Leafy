@@ -183,6 +183,35 @@
             android:background="@color/colorAddCart"
             android:text="@string/bt_add_cart"
             android:textColor="#FFFFFF" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btn_continueShopping"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@id/btn_GoCart"
+                android:layout_weight="1"
+                android:background="#F44336"
+                android:text="Continue Shopping"
+                android:textColor="#FFFFFF"
+                android:layout_marginRight="2dp"/>
+
+            <Button
+                android:id="@+id/btn_GoCart"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignRight="@id/btn_continueShopping"
+                android:layout_weight="1"
+                android:background="#F44336"
+                android:text="Go To Cart"
+                android:textColor="#FFFFFF"
+                android:layout_marginLeft="2dp"/>
+
+        </LinearLayout>
+
 
     </LinearLayout>
 
