@@ -16,7 +16,6 @@ public class Constant {
     // Device will re-register the device data to server when open app N-times
     public static int OPEN_COUNTER = 50;
 
-
     /**
      * ------------------- DON'T EDIT THIS -------------------------------------------------------
      */

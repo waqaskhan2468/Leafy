@@ -11,6 +11,7 @@
         android:layout_weight="1.0"
         android:background="@color/grey_5"
         android:gravity="center_vertical"
+        android:textAlignment="center"
         android:minHeight="@dimen/spacing_large"
         android:padding="@dimen/spacing_small">
 
@@ -166,7 +167,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1.0"
                 android:clipToPadding="false"
-                app:cardBackgroundColor="@color/colorPrimaryLight"
+                app:cardBackgroundColor="@color/grey_20"
                 app:cardCornerRadius="@dimen/card_radius"
                 app:cardElevation="@dimen/card_elevation"
                 app:cardUseCompatPadding="false">
@@ -194,7 +195,7 @@
                         android:layout_height="wrap_content"
                         android:text="110.00 USD"
                         android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-                        android:textColor="@android:color/white"
+                        android:textColor="@color/colorPrice"
                         android:textSize="16sp"
                         android:textStyle="bold" />
                 </LinearLayout>

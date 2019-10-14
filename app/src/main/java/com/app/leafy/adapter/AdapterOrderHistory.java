@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.app.leafy.R;
 import com.app.leafy.data.SharedPref;
@@ -73,7 +74,11 @@ public class AdapterOrderHistory extends RecyclerView.Adapter<RecyclerView.ViewH
             final Order c = items.get(position);
             vItem.code.setText(c.code);
             vItem.price.setText(c.total_fees);
-            vItem.status.setText(c.status);
+            if(c.status.equals("PROCESSED")){
+                vItem.status.setText("Completed");
+            }
+            else
+                vItem.status.setText("In Progress");
             vItem.date.setText(Tools.getFormattedDateSimple(c.created_at));
             vItem.lyt_parent.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -84,7 +89,6 @@ public class AdapterOrderHistory extends RecyclerView.Adapter<RecyclerView.ViewH
                 }
             });
         }
-
     }
 
     @Override
@@ -105,6 +109,4 @@ public class AdapterOrderHistory extends RecyclerView.Adapter<RecyclerView.ViewH
         this.items = items;
         notifyDataSetChanged();
     }
-
-
 }
