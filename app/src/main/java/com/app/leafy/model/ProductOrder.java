@@ -13,7 +13,7 @@ public class ProductOrder implements Serializable {
     public String comment;
     public String status;
     public Double total_fees;
-    public Double tax;
+    public Double DeliveryCharges;
     public String serial;
     public Long created_at = System.currentTimeMillis();
     public Long last_update = System.currentTimeMillis();

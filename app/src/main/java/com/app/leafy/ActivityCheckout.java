@@ -29,8 +29,8 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.app.leafy.adapter.AdapterShoppingCart;
 import com.app.leafy.adapter.AdapterShoppingCheckout;
 import com.app.leafy.connection.API;
 import com.app.leafy.connection.RestAdapter;
@@ -65,7 +65,7 @@ public class ActivityCheckout extends AppCompatActivity {
     private TextView date_shipping;
     private RecyclerView recyclerView;
     private MaterialRippleLayout lyt_add_cart;
-    private TextView total_order, tax, price_tax, total_fees;
+    private TextView total_charges, saving, price_saving, DeliveryCharges,total_fees,price_Dcharge;
     private TextInputLayout buyer_name_lyt, email_lyt, phone_lyt, address_lyt, comment_lyt;
     private EditText buyer_name, email, phone, address, comment;
 
@@ -114,10 +114,12 @@ public class ActivityCheckout extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         lyt_add_cart = (MaterialRippleLayout) findViewById(R.id.lyt_add_cart);
         // cost view
-        total_order = (TextView) findViewById(R.id.total_order);
-        tax = (TextView) findViewById(R.id.tax);
-        price_tax = (TextView) findViewById(R.id.price_tax);
+        total_charges = (TextView) findViewById(R.id.total_order);
+        saving = (TextView) findViewById(R.id.tax);
+        price_saving = (TextView) findViewById(R.id.price_tax);
         total_fees = (TextView) findViewById(R.id.total_fees);
+        DeliveryCharges = (TextView) findViewById(R.id.deliveryCharge);
+        price_Dcharge = (TextView) findViewById(R.id.price_Dcharges);
 
         // form view
         buyer_name = (EditText) findViewById(R.id.buyer_name);
@@ -191,6 +193,7 @@ public class ActivityCheckout extends AppCompatActivity {
 
     private void displayData() {
         List<Cart> items = db.getActiveCartList();
+        Toast.makeText(ActivityCheckout.this, "ds "+items.get(0).actual_price, Toast.LENGTH_SHORT).show();
         adapter = new AdapterShoppingCheckout(this, false, items);
         recyclerView.setAdapter(adapter);
         recyclerView.setNestedScrollingEnabled(false);
@@ -206,22 +209,29 @@ public class ActivityCheckout extends AppCompatActivity {
     private void setTotalPrice() {
         List<Cart> items = adapter.getItem();
         Double _total_order = 0D;
-        Double _price_tax = 0D;
-        String _total_order_str, _price_tax_str;
+        Double _Delivery_Charges = info.tax;
+        Double _saving =0D;
+        Double _total_actual_price=0D;
+        String _total_order_str, _price_DeliveryCharges_str,_saving_str;
+//        Toast.makeText(this, ""+items.get(0).type, Toast.LENGTH_SHORT).show();
         for (Cart c : items) {
-            _total_order = _total_order + (c.amount * c.price_item);
+          //  Toast.makeText(ActivityCheckout.this, ""+c.actual_price, Toast.LENGTH_SHORT).show();
+            //_total_actual_price=_total_actual_price+ (c.amount*c.actual_price);
+            _total_order = _total_order + (c.amount * c.price_item );
         }
-
-        _total_fees = _total_order + _price_tax;
-        _price_tax_str = Tools.getFormattedPrice(_price_tax, this);
+        _saving =_total_order;
+        _total_fees = _total_order + _Delivery_Charges;
+         _price_DeliveryCharges_str = Tools.getFormattedPrice(_Delivery_Charges, this);
         _total_order_str = Tools.getFormattedPrice(_total_order, this);
         _total_fees_str = Tools.getFormattedPrice(_total_fees, this);
-
+        _saving_str = Tools.getFormattedPrice(_saving,this);
         // set to display
-        total_order.setText(_total_order_str);
-        tax.setText(getString(R.string.tax) + info.tax + "%");
-        price_tax.setText(_price_tax_str);
+        total_charges.setText(_total_order_str);
+       // saving.setText(getString(R.string.tax) + info.tax + "%");
+        price_saving.setText(_saving_str);
+        price_Dcharge.setText(_price_DeliveryCharges_str);
         total_fees.setText(_total_fees_str);
+
     }
 
     private void submitForm() {
@@ -271,7 +281,7 @@ public class ActivityCheckout extends AppCompatActivity {
         ProductOrder productOrder = new ProductOrder(buyerProfile, comment.getText().toString().trim());
         productOrder.status = "WAITING";
         productOrder.total_fees = _total_fees;
-        productOrder.tax = info.tax;
+        productOrder.DeliveryCharges = info.tax;
         // to support notification
         productOrder.serial = Tools.getDeviceID(this);
 

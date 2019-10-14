@@ -368,7 +368,7 @@ public class ActivityProductDetails extends AppCompatActivity {
                 return;
             }
             Double selected_price = product.price_discount > 0 ? product.price_discount : product.price;
-            Cart cart = new Cart(product.id, product.name, product.image, 1D, "empty",selected_price, System.currentTimeMillis());
+            Cart cart = new Cart(product.id, product.name, product.image, 1D, "empty",selected_price, System.currentTimeMillis(),product.price);
             db.saveCart(cart);
             Toast.makeText(this, R.string.add_cart, Toast.LENGTH_SHORT).show();
         }

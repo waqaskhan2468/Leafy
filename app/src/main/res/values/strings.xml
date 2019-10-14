@@ -15,7 +15,7 @@
     <string name="title_activity_settings">Settings</string>
 
     <!--ADS UNIT ID  -->
-    <string name="interstitial_ad_unit_id">ca-app-pub-1089834084168106/5818811461</string>
+    <string name="interstitial_ad_unit_id">ca-app-pub-1089834084168106~7646543230</string>
     <string name="banner_ad_unit_id">ca-app-pub-1089834084168106/5968637662</string>
 
     <!--All data for ActivityMain.java -->
@@ -91,9 +91,9 @@
 
     <!--All data for ActivityCheckout.java -->
     <string name="cost_details">Cost Details</string>
-    <string name="total_order">Total Order :&#160;</string>
-    <string name="tax">Tax&#160;</string>
-    <string name="total_fess">Total Fees :&#160;</string>
+    <string name="total_order">Total Charges :&#160;</string>
+    <string name="tax">Saving :&#160;</string>
+    <string name="total_fess">Payable :&#160;</string>
     <string name="buyer_profile">Buyer Profile</string>
     <string name="hint_name">Name</string>
     <string name="hint_email">Email</string>
@@ -215,7 +215,7 @@
     <string name="TYPE_SEARCH">SEARCH</string>
     <string name="NO_IMAGE">NO IMAGE</string>
     <string name="DELETE">DELETE</string>
-    <string name="OPEN">OPEN</string>
+    <string name="CONTINUE">CONTINUE</string>
     <string name="SAVE">SAVE</string>
     <string name="NEXT">NEXT</string>
     <string name="SKIP">SKIP</string>

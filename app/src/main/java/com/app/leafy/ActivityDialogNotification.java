@@ -94,14 +94,14 @@ public class ActivityDialogNotification extends AppCompatActivity {
             ((View) findViewById(R.id.view_space)).setVisibility(View.GONE);
         }
 
-        intent = new Intent(this, ActivitySplash.class);
-        if (notification.type.equals("PRODUCT")) {
+        intent = new Intent(this, ActivityMain.class);
+       /* if (notification.type.equals("PRODUCT")) {
             intent = ActivityProductDetails.navigateBase(this, notification.obj_id, from_notif);
         } else if (notification.type.equals("NEWS_INFO")) {
             intent = ActivityNewsInfoDetails.navigateBase(this, notification.obj_id, from_notif);
         } else {
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        }
+        }*/
 
         ((ImageView) findViewById(R.id.img_close)).setOnClickListener(new View.OnClickListener() {
             @Override

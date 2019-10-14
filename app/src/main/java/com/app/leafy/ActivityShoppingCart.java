@@ -41,6 +41,7 @@ public class ActivityShoppingCart extends AppCompatActivity {
     private SharedPref sharedPref;
     private Info info;
     private MaterialRippleLayout action_checkout;
+    private ImageView cross_image;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +60,7 @@ public class ActivityShoppingCart extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         price_total = (TextView) findViewById(R.id.price_total);
         action_checkout = (MaterialRippleLayout) findViewById(R.id.action_checkout);
+        cross_image =(ImageView)findViewById(R.id.delete);
 
         action_checkout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -134,6 +136,7 @@ public class ActivityShoppingCart extends AppCompatActivity {
         adapter.setOnItemClickListener(new AdapterShoppingCart.OnItemClickListener() {
             @Override
             public void onItemClick(View view, Cart obj) {
+
                 dialogCartAction(obj);
             }
         });
