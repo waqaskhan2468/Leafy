@@ -90,7 +90,6 @@
         </android.support.v7.widget.CardView>
     </LinearLayout>
 
-
     <com.balysv.materialripple.MaterialRippleLayout
         android:id="@+id/lyt_add_cart"
         style="@style/RippleStyleBlack"
