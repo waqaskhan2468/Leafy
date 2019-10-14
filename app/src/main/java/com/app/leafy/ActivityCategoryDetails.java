@@ -454,8 +454,9 @@ public class ActivityCategoryDetails extends AppCompatActivity {
                 Toast.makeText(this, R.string.msg_suspend, Toast.LENGTH_SHORT).show();
                 return;
             }
+            Toast.makeText(ActivityCategoryDetails.this, ""+model.price, Toast.LENGTH_SHORT).show();
             Double selected_price = model.price_discount > 0 ? model.price_discount : model.price;
-            Cart cart = new Cart(model.id, model.name, model.image, quantity,model.description, selected_price, System.currentTimeMillis());
+            Cart cart = new Cart(model.id, model.name, model.image, quantity,model.description, selected_price, System.currentTimeMillis(),model.price);
             db.saveCart(cart);
         }
         refreshCartButton(model);

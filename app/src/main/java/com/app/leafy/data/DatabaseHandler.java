@@ -67,6 +67,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String COL_CART_STOCK = "COL_CART_STOCK";
     private static final String COL_CART_PRICE_ITEM = "COL_CART_PRICE_ITEM";
     private static final String COL_CART_CREATED_AT = "COL_CART_CREATED_AT";
+    private static final String COL_CART_ACTUAL_PRICE = "COL_CART_ACTUAL_PRICE";
 
     public DatabaseHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -129,7 +130,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 + COL_CART_TYPE + " TEXT, "
                 + COL_CART_STOCK + " INTEGER, "
                 + COL_CART_PRICE_ITEM + " NUMERIC, "
-                + COL_CART_CREATED_AT + " NUMERIC "
+                + COL_CART_CREATED_AT + " NUMERIC ,"
+                + COL_CART_ACTUAL_PRICE + " NUMERIC"
                 + ")";
         db.execSQL(CREATE_TABLE);
     }
@@ -231,6 +233,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         values.put(COL_CART_TYPE, model.type);
         values.put(COL_CART_PRICE_ITEM, model.price_item);
         values.put(COL_CART_CREATED_AT, model.created_at);
+        values.put(COL_CART_ACTUAL_PRICE,model.actual_price);
         return values;
     }
 
