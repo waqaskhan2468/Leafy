@@ -105,13 +105,15 @@
                 android:id="@+id/radioExpress"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Express Delivery(30 min)" />
+                android:text="Express Delivery(30 min)"
+                android:onClick="onRadioButtonClick"/>
 
             <RadioButton
                 android:id="@+id/radioNormal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Normal Delivery(3 hr)" />
+                android:text="Normal Delivery(3 hr)"
+                android:onClick="onRadioButtonClick"/>
 
         </RadioGroup>
 

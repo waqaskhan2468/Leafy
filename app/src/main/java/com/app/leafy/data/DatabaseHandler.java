@@ -326,6 +326,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         obj.type = cur.getString(cur.getColumnIndex(COL_CART_TYPE));
         obj.price_item = cur.getDouble(cur.getColumnIndex(COL_CART_PRICE_ITEM));
         obj.created_at = cur.getLong(cur.getColumnIndex(COL_CART_CREATED_AT));
+        obj.actual_price=cur.getDouble(cur.getColumnIndex(COL_CART_ACTUAL_PRICE));
         return obj;
     }
 

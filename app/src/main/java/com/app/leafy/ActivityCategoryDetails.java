@@ -349,7 +349,6 @@ public class ActivityCategoryDetails extends AppCompatActivity {
         });
     }
 
-
     private void dialogProductAction(final Product model) {
         //Toast.makeText(this, "description" +model.description, Toast.LENGTH_SHORT).show();
         final Dialog dialog = new Dialog(ActivityCategoryDetails.this);
@@ -394,7 +393,7 @@ public class ActivityCategoryDetails extends AppCompatActivity {
                         qty.setText((int)quantity +" "+ model.description);
                     }
                     else if ((quantity <= 2.0)&&(quantity > 0.5)){
-                        quantity = quantity - 0.5;
+                        quantity = quantity - 0.25;
                         qty.setText(quantity +" "+ model.description);
                     }
                 }
@@ -454,7 +453,7 @@ public class ActivityCategoryDetails extends AppCompatActivity {
                 Toast.makeText(this, R.string.msg_suspend, Toast.LENGTH_SHORT).show();
                 return;
             }
-            Toast.makeText(ActivityCategoryDetails.this, ""+model.price, Toast.LENGTH_SHORT).show();
+           // Toast.makeText(ActivityCategoryDetails.this, ""+model.price, Toast.LENGTH_SHORT).show();
             Double selected_price = model.price_discount > 0 ? model.price_discount : model.price;
             Cart cart = new Cart(model.id, model.name, model.image, quantity,model.description, selected_price, System.currentTimeMillis(),model.price);
             db.saveCart(cart);
@@ -480,6 +479,7 @@ public class ActivityCategoryDetails extends AppCompatActivity {
             btn_cart.setText(R.string.bt_add_cart);
             btn_GoToCart.setVisibility(View.GONE);
             btn_ContineShop.setVisibility(View.GONE);
+
         }
     }
 }

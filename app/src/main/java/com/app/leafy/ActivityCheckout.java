@@ -6,6 +6,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.Snackbar;
@@ -27,6 +28,7 @@ import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -65,11 +67,12 @@ public class ActivityCheckout extends AppCompatActivity {
     private TextView date_shipping;
     private RecyclerView recyclerView;
     private MaterialRippleLayout lyt_add_cart;
-    private TextView total_charges, saving, price_saving, DeliveryCharges,total_fees,price_Dcharge;
+    private TextView total_charges, saving, price_saving, DeliveryCharges,total_fees,price_Dcharge,deliveryMethod;
     private TextInputLayout buyer_name_lyt, email_lyt, phone_lyt, address_lyt, comment_lyt;
     private EditText buyer_name, email, phone, address, comment;
+    private RadioButton radioExpress,radioNormal;
 
-    private DatePickerDialog datePickerDialog;
+
     private AdapterShoppingCheckout adapter;
     private DatabaseHandler db;
     private SharedPref sharedPref;
@@ -78,6 +81,7 @@ public class ActivityCheckout extends AppCompatActivity {
     private Long date_ship_millis = 0L;
     private Double _total_fees = 0D;
     private String _total_fees_str;
+    private Double deliveryCharges=0D;
 
     private Call<CallbackOrder> callbackCall = null;
     // construct dialog progress
@@ -120,7 +124,9 @@ public class ActivityCheckout extends AppCompatActivity {
         total_fees = (TextView) findViewById(R.id.total_fees);
         DeliveryCharges = (TextView) findViewById(R.id.deliveryCharge);
         price_Dcharge = (TextView) findViewById(R.id.price_Dcharges);
-
+        radioExpress =(RadioButton)findViewById(R.id.radioExpress);
+        radioNormal=(RadioButton)findViewById(R.id.radioNormal);
+        deliveryMethod=(TextView)findViewById(R.id.deliveryMethodText);
         // form view
         buyer_name = (EditText) findViewById(R.id.buyer_name);
         email = (EditText) findViewById(R.id.email);
@@ -151,6 +157,11 @@ public class ActivityCheckout extends AppCompatActivity {
         adapter_shipping.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         shipping.setAdapter(adapter_shipping);
 
+        ArrayAdapter myAdap = (ArrayAdapter) shipping.getAdapter();
+        int spinnerPosition = myAdap.getPosition(buyerProfile.area);
+        shipping.setSelection(spinnerPosition);
+
+
         progressDialog = new ProgressDialog(ActivityCheckout.this);
         progressDialog.setCancelable(false);
         progressDialog.setTitle(R.string.title_please_wait);
@@ -169,6 +180,26 @@ public class ActivityCheckout extends AppCompatActivity {
                 submitForm();
             }
         });
+
+
+    }
+    public void onRadioButtonClick(View v){
+        deliveryMethod.setTextColor(Color.BLACK);
+        boolean checked = ((RadioButton)v).isChecked();
+        switch (v.getId()){
+            case R.id.radioExpress:
+                if(checked){
+                    deliveryCharges=info.tax;
+                    setTotalPrice();
+                }
+                break;
+            case R.id.radioNormal:
+                if(checked){
+                    deliveryCharges=0.0;
+                    setTotalPrice();
+                }
+        }
+
     }
 
     @Override
@@ -193,7 +224,7 @@ public class ActivityCheckout extends AppCompatActivity {
 
     private void displayData() {
         List<Cart> items = db.getActiveCartList();
-        Toast.makeText(ActivityCheckout.this, "ds "+items.get(0).actual_price, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(ActivityCheckout.this, "ds "+items.get(0).actual_price, Toast.LENGTH_SHORT).show();
         adapter = new AdapterShoppingCheckout(this, false, items);
         recyclerView.setAdapter(adapter);
         recyclerView.setNestedScrollingEnabled(false);
@@ -209,20 +240,19 @@ public class ActivityCheckout extends AppCompatActivity {
     private void setTotalPrice() {
         List<Cart> items = adapter.getItem();
         Double _total_order = 0D;
-        Double _Delivery_Charges = info.tax;
         Double _saving =0D;
         Double _total_actual_price=0D;
         String _total_order_str, _price_DeliveryCharges_str,_saving_str;
 //        Toast.makeText(this, ""+items.get(0).type, Toast.LENGTH_SHORT).show();
         for (Cart c : items) {
           //  Toast.makeText(ActivityCheckout.this, ""+c.actual_price, Toast.LENGTH_SHORT).show();
-            //_total_actual_price=_total_actual_price+ (c.amount*c.actual_price);
+            _total_actual_price=_total_actual_price+ (c.amount*c.actual_price);
             _total_order = _total_order + (c.amount * c.price_item );
         }
-        _saving =_total_order;
-        _total_fees = _total_order + _Delivery_Charges;
-         _price_DeliveryCharges_str = Tools.getFormattedPrice(_Delivery_Charges, this);
-        _total_order_str = Tools.getFormattedPrice(_total_order, this);
+        _saving =_total_actual_price - _total_order;
+        _total_fees = _total_order + deliveryCharges;
+         _price_DeliveryCharges_str = Tools.getFormattedPrice(deliveryCharges, this);
+        _total_order_str = Tools.getFormattedPrice(_total_actual_price, this);
         _total_fees_str = Tools.getFormattedPrice(_total_fees, this);
         _saving_str = Tools.getFormattedPrice(_saving,this);
         // set to display
@@ -255,6 +285,10 @@ public class ActivityCheckout extends AppCompatActivity {
             Snackbar.make(parent_view, R.string.invalid_shipping, Snackbar.LENGTH_SHORT).show();
             return;
         }
+       if(!validateDeliveryMethod()){
+           Snackbar.make(parent_view, "invalid Delivery Method", Snackbar.LENGTH_SHORT).show();
+           return;
+       }
        /* if (!validateDateShip()) {
             Snackbar.make(parent_view, R.string.invalid_date_ship, Snackbar.LENGTH_SHORT).show();
             return;
@@ -264,8 +298,8 @@ public class ActivityCheckout extends AppCompatActivity {
         buyerProfile.name = buyer_name.getText().toString();
         buyerProfile.email = email.getText().toString();
         buyerProfile.phone = phone.getText().toString();
-        buyerProfile.address = shipping.getSelectedItem().toString()+" "+address.getText().toString();
-
+        buyerProfile.address = address.getText().toString();
+        buyerProfile.area =shipping.getSelectedItem().toString();
         sharedPref.setBuyerProfile(buyerProfile);
 
         // hide keyboard
@@ -387,25 +421,6 @@ public class ActivityCheckout extends AppCompatActivity {
         dialog.show();
     }
 
-    private void dialogDatePicker() {
-        Calendar cur_calender = Calendar.getInstance();
-        datePickerDialog = new DatePickerDialog(this, R.style.DatePickerTheme, new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker datePicker, int _year, int _month, int _day) {
-                Calendar calendar = Calendar.getInstance();
-                calendar.set(Calendar.YEAR, _year);
-                calendar.set(Calendar.MONTH, _month);
-                calendar.set(Calendar.DAY_OF_MONTH, _day);
-                date_ship_millis = calendar.getTimeInMillis();
-                date_shipping.setText(Tools.getFormattedDateSimple(date_ship_millis));
-                datePickerDialog.dismiss();
-            }
-        }, cur_calender.get(Calendar.YEAR), cur_calender.get(Calendar.MONTH), cur_calender.get(Calendar.DAY_OF_MONTH));
-
-        datePickerDialog.setCancelable(true);
-        datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
-        datePickerDialog.show();
-    }
 
     // validation method
     private boolean validateEmail() {
@@ -434,7 +449,7 @@ public class ActivityCheckout extends AppCompatActivity {
 
     private boolean validatePhone() {
         String str = phone.getText().toString().trim();
-        if (str.isEmpty()) {
+        if ((str.length() < 11) || (str.length() >14) ) {
             phone_lyt.setError(getString(R.string.invalid_phone));
             requestFocus(phone);
             return false;
@@ -455,7 +470,15 @@ public class ActivityCheckout extends AppCompatActivity {
         }
         return true;
     }
-
+    private boolean validateDeliveryMethod(){
+        if(radioNormal.isChecked() || radioExpress.isChecked()){
+            deliveryMethod.setTextColor(Color.LTGRAY);
+            return true;
+        }
+        requestFocus(deliveryMethod);
+        deliveryMethod.setTextColor(Color.RED);
+        return false;
+    }
     private boolean validateShipping() {
         int pos = shipping.getSelectedItemPosition();
         if (pos == 0) {

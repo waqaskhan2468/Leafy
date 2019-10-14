@@ -90,7 +90,7 @@ public class ActivitySearch extends AppCompatActivity {
     private ImageView image;
     private LinearLayout lyt_quantity,lyt_price;
     private TextView priceDiscount;
-    private Button btn_cart;
+    private Button btn_cart,btn_ContineShop,btn_GoToCart;
     private double quantity = 1;
     private boolean flag_cart = false;
     private int post_total = 0;
@@ -248,6 +248,8 @@ public class ActivitySearch extends AppCompatActivity {
         priceDiscount.setPaintFlags(priceDiscount.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
         final TextView qty = (TextView) dialog.findViewById(R.id.quantity);
         btn_cart = (Button) dialog.findViewById(R.id.btn_cart);
+        btn_ContineShop=(Button)dialog.findViewById(R.id.btn_continueShopping);
+        btn_GoToCart=(Button)dialog.findViewById(R.id.btn_GoCart);
         final Category c = model.categories.get(0);
         refreshCartButton(model);
         qty.setText((int)quantity + " "+model.description);
@@ -302,6 +304,19 @@ public class ActivitySearch extends AppCompatActivity {
         });
         dialog.show();
         dialog.getWindow().setAttributes(lp);
+        btn_GoToCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(ActivitySearch.this, ActivityShoppingCart.class);
+                startActivity(i);
+            }
+        });
+        btn_ContineShop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
     }
 
     private void refreshCartButton(Product model) {
@@ -313,11 +328,17 @@ public class ActivitySearch extends AppCompatActivity {
             lyt_price.setVisibility(View.GONE);
             btn_cart.setBackgroundColor(getResources().getColor(R.color.colorRemoveCart));
             btn_cart.setText(R.string.bt_remove_cart);
+            btn_GoToCart.setVisibility(View.VISIBLE);
+            btn_ContineShop.setVisibility(View.VISIBLE);
+            btn_cart.setVisibility(View.GONE);
+
         } else {
             lyt_quantity.setVisibility(View.VISIBLE);
             lyt_price.setVisibility(View.VISIBLE);
             btn_cart.setBackgroundColor(getResources().getColor(R.color.colorAddCart));
             btn_cart.setText(R.string.bt_add_cart);
+            btn_GoToCart.setVisibility(View.GONE);
+            btn_ContineShop.setVisibility(View.GONE);
         }
     }
 
