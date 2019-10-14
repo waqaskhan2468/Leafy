@@ -166,7 +166,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1.0"
                 android:clipToPadding="false"
-                app:cardBackgroundColor="@color/colorPrimaryLight"
+                app:cardBackgroundColor="@color/netTotal"
                 app:cardCornerRadius="@dimen/card_radius"
                 app:cardElevation="@dimen/card_elevation"
                 app:cardUseCompatPadding="false">

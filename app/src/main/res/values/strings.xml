@@ -66,8 +66,8 @@
 
     <!--All data for ActivityShoppingCart.java -->
     <string name="msg_cart_empty">Shopping cart is empty</string>
-    <string name="before_tax">( Before tax )</string>
-    <string name="total">Total&#160;</string>
+    <string name="before_tax"></string>
+    <string name="total">Net Total&#160;</string>
     <string name="stock">Stock : &#160;</string>
     <string name="QUANTITY">QUANTITY</string>
     <string name="items">Item(s)</string>

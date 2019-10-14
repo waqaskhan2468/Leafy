@@ -349,7 +349,6 @@ public class ActivityCategoryDetails extends AppCompatActivity {
         });
     }
 
-
     private void dialogProductAction(final Product model) {
         //Toast.makeText(this, "description" +model.description, Toast.LENGTH_SHORT).show();
         final Dialog dialog = new Dialog(ActivityCategoryDetails.this);
@@ -394,7 +393,7 @@ public class ActivityCategoryDetails extends AppCompatActivity {
                         qty.setText((int)quantity +" "+ model.description);
                     }
                     else if ((quantity <= 2.0)&&(quantity > 0.5)){
-                        quantity = quantity - 0.5;
+                        quantity = quantity - 0.25;
                         qty.setText(quantity +" "+ model.description);
                     }
                 }
@@ -478,6 +477,8 @@ public class ActivityCategoryDetails extends AppCompatActivity {
             lyt_price.setVisibility(View.VISIBLE);
             btn_cart.setBackgroundColor(getResources().getColor(R.color.colorAddCart));
             btn_cart.setText(R.string.bt_add_cart);
+            btn_GoToCart.setVisibility(View.GONE);
+            btn_ContineShop.setVisibility(View.GONE);
 
         }
     }

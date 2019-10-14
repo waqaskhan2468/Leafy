@@ -6,6 +6,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.Snackbar;
@@ -66,7 +67,7 @@ public class ActivityCheckout extends AppCompatActivity {
     private TextView date_shipping;
     private RecyclerView recyclerView;
     private MaterialRippleLayout lyt_add_cart;
-    private TextView total_charges, saving, price_saving, DeliveryCharges,total_fees,price_Dcharge;
+    private TextView total_charges, saving, price_saving, DeliveryCharges,total_fees,price_Dcharge,deliveryMethod;
     private TextInputLayout buyer_name_lyt, email_lyt, phone_lyt, address_lyt, comment_lyt;
     private EditText buyer_name, email, phone, address, comment;
     private RadioButton radioExpress,radioNormal;
@@ -125,7 +126,7 @@ public class ActivityCheckout extends AppCompatActivity {
         price_Dcharge = (TextView) findViewById(R.id.price_Dcharges);
         radioExpress =(RadioButton)findViewById(R.id.radioExpress);
         radioNormal=(RadioButton)findViewById(R.id.radioNormal);
-
+        deliveryMethod=(TextView)findViewById(R.id.deliveryMethodText);
         // form view
         buyer_name = (EditText) findViewById(R.id.buyer_name);
         email = (EditText) findViewById(R.id.email);
@@ -156,6 +157,11 @@ public class ActivityCheckout extends AppCompatActivity {
         adapter_shipping.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         shipping.setAdapter(adapter_shipping);
 
+        ArrayAdapter myAdap = (ArrayAdapter) shipping.getAdapter();
+        int spinnerPosition = myAdap.getPosition(buyerProfile.area);
+        shipping.setSelection(spinnerPosition);
+
+
         progressDialog = new ProgressDialog(ActivityCheckout.this);
         progressDialog.setCancelable(false);
         progressDialog.setTitle(R.string.title_please_wait);
@@ -178,6 +184,7 @@ public class ActivityCheckout extends AppCompatActivity {
 
     }
     public void onRadioButtonClick(View v){
+        deliveryMethod.setTextColor(Color.BLACK);
         boolean checked = ((RadioButton)v).isChecked();
         switch (v.getId()){
             case R.id.radioExpress:
@@ -245,7 +252,7 @@ public class ActivityCheckout extends AppCompatActivity {
         _saving =_total_actual_price - _total_order;
         _total_fees = _total_order + deliveryCharges;
          _price_DeliveryCharges_str = Tools.getFormattedPrice(deliveryCharges, this);
-        _total_order_str = Tools.getFormattedPrice(_total_order, this);
+        _total_order_str = Tools.getFormattedPrice(_total_actual_price, this);
         _total_fees_str = Tools.getFormattedPrice(_total_fees, this);
         _saving_str = Tools.getFormattedPrice(_saving,this);
         // set to display
@@ -278,6 +285,10 @@ public class ActivityCheckout extends AppCompatActivity {
             Snackbar.make(parent_view, R.string.invalid_shipping, Snackbar.LENGTH_SHORT).show();
             return;
         }
+       if(!validateDeliveryMethod()){
+           Snackbar.make(parent_view, "invalid Delivery Method", Snackbar.LENGTH_SHORT).show();
+           return;
+       }
        /* if (!validateDateShip()) {
             Snackbar.make(parent_view, R.string.invalid_date_ship, Snackbar.LENGTH_SHORT).show();
             return;
@@ -287,8 +298,8 @@ public class ActivityCheckout extends AppCompatActivity {
         buyerProfile.name = buyer_name.getText().toString();
         buyerProfile.email = email.getText().toString();
         buyerProfile.phone = phone.getText().toString();
-        buyerProfile.address = shipping.getSelectedItem().toString()+" "+address.getText().toString();
-
+        buyerProfile.address = address.getText().toString();
+        buyerProfile.area =shipping.getSelectedItem().toString();
         sharedPref.setBuyerProfile(buyerProfile);
 
         // hide keyboard
@@ -438,7 +449,7 @@ public class ActivityCheckout extends AppCompatActivity {
 
     private boolean validatePhone() {
         String str = phone.getText().toString().trim();
-        if (str.isEmpty()) {
+        if ((str.length() < 11) || (str.length() >14) ) {
             phone_lyt.setError(getString(R.string.invalid_phone));
             requestFocus(phone);
             return false;
@@ -459,7 +470,15 @@ public class ActivityCheckout extends AppCompatActivity {
         }
         return true;
     }
-
+    private boolean validateDeliveryMethod(){
+        if(radioNormal.isChecked() || radioExpress.isChecked()){
+            deliveryMethod.setTextColor(Color.LTGRAY);
+            return true;
+        }
+        requestFocus(deliveryMethod);
+        deliveryMethod.setTextColor(Color.RED);
+        return false;
+    }
     private boolean validateShipping() {
         int pos = shipping.getSelectedItemPosition();
         if (pos == 0) {

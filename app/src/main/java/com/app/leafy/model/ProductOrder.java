@@ -23,7 +23,7 @@ public class ProductOrder implements Serializable {
 
     public ProductOrder(BuyerProfile buyerProfile, String comment) {
         this.buyer = buyerProfile.name;
-        this.address = buyerProfile.address;
+        this.address = buyerProfile.address+" "+buyerProfile.area;
         this.email = buyerProfile.email;
         this.phone = buyerProfile.phone;
         this.comment = comment;
