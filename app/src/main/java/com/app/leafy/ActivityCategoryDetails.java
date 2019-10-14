@@ -454,7 +454,7 @@ public class ActivityCategoryDetails extends AppCompatActivity {
                 Toast.makeText(this, R.string.msg_suspend, Toast.LENGTH_SHORT).show();
                 return;
             }
-            Toast.makeText(ActivityCategoryDetails.this, ""+model.price, Toast.LENGTH_SHORT).show();
+           // Toast.makeText(ActivityCategoryDetails.this, ""+model.price, Toast.LENGTH_SHORT).show();
             Double selected_price = model.price_discount > 0 ? model.price_discount : model.price;
             Cart cart = new Cart(model.id, model.name, model.image, quantity,model.description, selected_price, System.currentTimeMillis(),model.price);
             db.saveCart(cart);
@@ -478,8 +478,7 @@ public class ActivityCategoryDetails extends AppCompatActivity {
             lyt_price.setVisibility(View.VISIBLE);
             btn_cart.setBackgroundColor(getResources().getColor(R.color.colorAddCart));
             btn_cart.setText(R.string.bt_add_cart);
-            btn_GoToCart.setVisibility(View.GONE);
-            btn_ContineShop.setVisibility(View.GONE);
+
         }
     }
 }
