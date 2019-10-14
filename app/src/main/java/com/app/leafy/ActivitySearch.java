@@ -332,7 +332,7 @@ public class ActivitySearch extends AppCompatActivity {
             }
             Toast.makeText(ActivitySearch.this, "Adding To Cart", Toast.LENGTH_SHORT).show();
             Double selected_price = model.price_discount > 0 ? model.price_discount : model.price;
-            Cart cart = new Cart(model.id, model.name, model.image, quantity,model.description, selected_price, System.currentTimeMillis());
+            Cart cart = new Cart(model.id, model.name, model.image, quantity,model.description, selected_price, System.currentTimeMillis(),model.price);
             db.saveCart(cart);
             Toast.makeText(ActivitySearch.this, "Product Added", Toast.LENGTH_SHORT).show();
         }

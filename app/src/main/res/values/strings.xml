@@ -88,9 +88,10 @@
 
     <!--All data for ActivityCheckout.java -->
     <string name="cost_details">Cost Details</string>
-    <string name="total_order">Total Charges :&#160;</string>
-    <string name="tax">Saving :&#160;</string>
-    <string name="total_fess">Payable :&#160;</string>
+    <string name="total_order">Price&#160;</string>
+    <string name="tax">Shipping&#160;</string>
+    <string name="total_disocount">Discount&#160;</string>
+    <string name="total_fees">Net Total&#160;</string>
     <string name="buyer_profile">Buyer Profile</string>
     <string name="hint_name">Name</string>
     <string name="hint_email">Email</string>

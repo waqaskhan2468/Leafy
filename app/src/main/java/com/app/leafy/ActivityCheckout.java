@@ -115,7 +115,7 @@ public class ActivityCheckout extends AppCompatActivity {
         lyt_add_cart = (MaterialRippleLayout) findViewById(R.id.lyt_add_cart);
         // cost view
         total_charges = (TextView) findViewById(R.id.total_order);
-        saving = (TextView) findViewById(R.id.tax);
+        saving = (TextView) findViewById(R.id.discount);
         price_saving = (TextView) findViewById(R.id.price_tax);
         total_fees = (TextView) findViewById(R.id.total_fees);
         DeliveryCharges = (TextView) findViewById(R.id.deliveryCharge);
