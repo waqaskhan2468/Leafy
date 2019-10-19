@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Leafy</string>
-    <string name="app_tag_line">Fruits And Vegetables\nEat Fresh, Live Better.</string>
+    <string name="mainscreen_app_name">Fruits And Vegetables</string>
+    <string name="app_tag_line">Eat Fresh, Live Better.</string>
 
     <string name="title_about">About</string>
     <string name="content_about">Leafy is an online store that sells various types of fruits, and vegetables.\n We provide excellent product quality and competitive prices.\n\nMobile : 923155186150</string>
@@ -66,8 +67,8 @@
 
     <!--All data for ActivityShoppingCart.java -->
     <string name="msg_cart_empty">Shopping cart is empty</string>
-    <string name="before_tax"></string>
-    <string name="total">Net Total&#160;</string>
+    <string name="before_tax">(Excluding Shipping Charges)</string>
+    <string name="total">Total&#160;</string>
     <string name="stock">Stock : &#160;</string>
     <string name="QUANTITY">QUANTITY</string>
     <string name="items">Item(s)</string>

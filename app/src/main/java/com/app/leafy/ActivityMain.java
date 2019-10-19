@@ -86,7 +86,7 @@ public class ActivityMain extends AppCompatActivity {
         actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
-        actionBar.setTitle(R.string.app_name);
+        actionBar.setTitle(R.string.mainscreen_app_name);
     }
 
     private void initDrawerMenu() {
